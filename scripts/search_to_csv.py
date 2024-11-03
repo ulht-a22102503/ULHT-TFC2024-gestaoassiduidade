@@ -59,10 +59,21 @@ try:
         print('Found template at position #' + str(positionNumber))
         print('The accuracy score is: ' + str(accuracyScore))
         
+        idfuncionario = int
+        
+        with open('employees.csv',newline='') as csvfile:
+            fieldnames = ['IDfunc', 'IDfinger', 'Name']
+            reader = csv.DictReader(csvfile, fieldnames = fieldnames)
+            for row in reader:
+                if int(row['IDfinger']) == int(positionNumber):
+                    idfuncionario = row['IDfunc']
+                    print('Picagem de', row['Name'], 'registada')
+                    break
+        
         with open('fingerprint_log.csv', 'a', newline='') as csvfile:
-            fieldnames = ['index','timestamp']
+            fieldnames = ['IDfunc','timestamp']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writerow({'index':positionNumber,'timestamp':datetime.datetime.now()})
+            writer.writerow({'IDfunc':idfuncionario,'timestamp':datetime.datetime.now()})
 
     ## OPTIONAL stuff
     ##
