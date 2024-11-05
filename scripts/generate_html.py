@@ -15,10 +15,9 @@ def dump_employees():
 
 
 def generate_from_csv():
-    html = '<h1>Picagens de funcionários</h1>\n'
     employees = dump_employees()
 
-    html+='<table>\n<tr><td>Funcionário</td><td>Hora de picagem</td></tr>\n'
+    html='<table>\n<tr><td>Funcionário</td><td>Hora de picagem</td></tr>\n'
     with open('./data/fingerprint_log.csv',newline='') as fingerprints_csv:
         fingerprint_fields = ['IDfunc','timestamp']
         reader = csv.DictReader(fingerprints_csv, fieldnames = fingerprint_fields)
@@ -30,6 +29,6 @@ def generate_from_csv():
     return html
 
 
-f = open("./web/index.html", "w", encoding="utf-8")
+f = open("./web/gestaoassiduidade/templates/table.html", "w", encoding="utf-8")
 f.write(generate_from_csv())
 f.close()
