@@ -1,0 +1,16 @@
+{% extends 'gestaoassiduidade/global.html' %}
+
+{% block page_body %}
+<h1>Diz lá que não sou EMPRESÁRI@</h1>
+<table>
+<tr><td>ID Funcionário</td><td>Nome funcionário</td><td>ID Biometria</td></tr>
+{% for func in funcs %}
+<tr>
+    <td>{{ func.ID_funcionario }}</td><td>{{ func.nome }}</td><td>{{ func.ID_biometria }}</td>
+    <td><a href="{% url 'gestaoassiduidade:funcionarios_edit' func.ID_funcionario %}">Editar</a></td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="{% url 'gestaoassiduidade:funcionarios_new' %}">+ Novo Funcionário</a>
+{% endblock %}
