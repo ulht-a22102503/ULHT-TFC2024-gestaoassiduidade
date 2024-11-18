@@ -1,6 +1,5 @@
 from gpiozero import Button
 from signal import pause
-import subprocess
 
 import time
 import hashlib
@@ -8,8 +7,12 @@ from pyfingerprint.pyfingerprint import PyFingerprint
 from pyfingerprint.pyfingerprint import FINGERPRINT_CHARBUFFER1
 from pyfingerprint.pyfingerprint import FINGERPRINT_CHARBUFFER2
 
+import dal_terminal_db as database
+
 #Funções para fazer algo com o sensor de impressão digital
 def fingerprint_enroll():
+    func = int(input("Qual o ID do funcionario? "))
+    
     try:
         print('Waiting for finger...')
 
@@ -48,13 +51,13 @@ def fingerprint_enroll():
         print('Finger enrolled successfully!')
         print('New template position #' + str(positionNumber))
 
-
     except Exception as e:
         print('Operation failed!')
         print('Exception message: ' + str(e))
         return
 
-
+    conn = database.connect_to_db()
+    database.insert_finger(conn,func,int(positionNumber))
 
     ## Wait that finger is read
     while ( f.readImage() == False ):
@@ -84,11 +87,15 @@ def fingerprint_read(fp):
             print('Found template at position #' + str(positionNumber))
             print('The accuracy score is: ' + str(accuracyScore))
 
-
     except Exception as e:
         print('Operation failed!')
         print('Exception message: ' + str(e))
         return
+
+    conn = database.connect_to_db()
+    func = database.get_employee_from_fingerprint(conn,int(positionNumber))
+    database.insert_attendence(conn,func)
+    return
 
 #Inicialização GPIO
 fingerprint_touch = Button(23)
