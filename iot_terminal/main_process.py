@@ -94,6 +94,8 @@ def fingerprint_read(fp):
 
     conn = database.connect_to_db()
     func = database.get_employee_from_fingerprint(conn,int(positionNumber))
+    print("ID do funcionario",func)
+    conn = database.connect_to_db()
     database.insert_attendence(conn,func)
     return
 
@@ -113,10 +115,7 @@ except Exception as e:
     print('Exception message: ' + str(e))
     exit(1)
 
-#
-#fingerprint_touch.when_held = fingerprint_read
-#button.when_pressed = fingerprint_enroll
-
+#Execução permanente do script
 while True:
     if f.readImage() == True:
         fingerprint_read(f)

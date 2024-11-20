@@ -9,23 +9,26 @@ def connect_to_db():
     return conn
 
 #retrieving information 
-def get_employee_from_fingerprint(conn, ID_fingerprint):
-    cursor().execute("SELECT ID_employee FROM fingerprints WHERE ID_fingerprint=?", (ID_fingerprint,))
-    row= cursor.fetchone()
-    print(*row)
+def get_employee_from_fingerprint(conn, ID_finger):
+    cur = conn.cursor()
+    cur.execute("SELECT ID_employee FROM fingerprints WHERE ID_fingerprint=?", (ID_finger,))
+    ID_func = cur.fetchone()[0]
     conn.close()
+    return ID_func
 
 #insert information
-def insert_attendence(conn, ID_employee):
+def insert_attendence(conn, ID_func):
     try: 
-        cursor().execute("INSERT INTO attendance (ID_employee,timestamp) VALUES (?, NOW())", (ID_employee))
+        conn.cursor().execute("INSERT INTO attendance (ID_employee,timestamp) VALUES (?, NOW())", (ID_func,))
+        conn.commit()
     except mariadb.Error as e: 
         print(f"Error: {e}")
     conn.close()
 
 def insert_finger(conn, ID_employee, ID_index):
     try: 
-        cursor().execute("INSERT INTO fingerprints (ID_employee,ID_index) VALUES (?, ?)", (ID_employee, ID_index))
+        conn.cursor().execute("INSERT INTO fingerprints (ID_employee,ID_index) VALUES (?, ?)", (ID_employee, ID_index))
+        conn.commit()
     except mariadb.Error as e: 
         print(f"Error: {e}")
     conn.close()
