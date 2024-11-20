@@ -1,0 +1,10 @@
+colorzero==2.0
+gpiozero==2.0.1
+lgpio==0.2.2.0
+mariadb==1.1.10
+packaging==24.2
+pigpio==1.78
+pillow==11.0.0
+pyfingerprint==1.5
+pyserial==3.5
+rpi-lgpio==0.6
