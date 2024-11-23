@@ -11,7 +11,7 @@ def connect_to_db():
 #retrieving information 
 def get_employee_from_fingerprint(conn, ID_finger):
     cur = conn.cursor()
-    cur.execute("SELECT ID_employee FROM fingerprints WHERE ID_fingerprint=?", (ID_finger,))
+    cur.execute("SELECT ID_employee FROM fingerprint WHERE ID_sensor_index=?", (ID_finger,))
     ID_func = cur.fetchone()[0]
     conn.close()
     return ID_func
@@ -27,7 +27,7 @@ def insert_attendence(conn, ID_func):
 
 def insert_finger(conn, ID_employee, ID_index):
     try: 
-        conn.cursor().execute("INSERT INTO fingerprints (ID_employee,ID_index) VALUES (?, ?)", (ID_employee, ID_index))
+        conn.cursor().execute("INSERT INTO fingerprint (ID_employee,ID_index) VALUES (?, ?)", (ID_employee, ID_index))
         conn.commit()
     except mariadb.Error as e: 
         print(f"Error: {e}")

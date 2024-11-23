@@ -3,14 +3,16 @@ CREATE DATABASE terminal;
 
 USE terminal;
 
-CREATE TABLE fingerprints(
+CREATE TABLE fingerprint(
+ID_fingerprint int not null AUTO_INCREMENT,
 ID_employee int not null,
-ID_fingerprint int not null,
-primary key (ID_employee, ID_fingerprint)
+ID_sensor_index int,
+primary key (ID_fingerprint)
 );
 
 CREATE TABLE attendance(
+ID_attendance int not null AUTO_INCREMENT,
 ID_employee int not null,
 `timestamp` timestamp not null,
-primary key (ID_employee, timestamp)
+primary key (ID_attendance)
 );
