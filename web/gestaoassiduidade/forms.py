@@ -1,8 +1,8 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Funcionario, Picagem
+from .models import Employee
 
-class FuncionarioForm(ModelForm):
+class EmployeeForm(ModelForm):
     class Meta:
-            model = Funcionario
-            fields = '__all__'
+            model = Employee
+            fields = ['name',]
