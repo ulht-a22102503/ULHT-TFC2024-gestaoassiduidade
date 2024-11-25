@@ -32,6 +32,4 @@ def insert_finger(conn, ID_employee, ID_index):
     except mariadb.Error as e: 
         print(f"Error: {e}")
     conn.close()
-
-#print(f"Last Inserted ID: {cur.lastrowid}")
     
