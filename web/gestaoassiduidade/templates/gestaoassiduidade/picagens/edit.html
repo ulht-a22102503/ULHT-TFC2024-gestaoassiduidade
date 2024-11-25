@@ -1,0 +1,12 @@
+{% extends 'gestaoassiduidade/global.html' %}
+
+{% block page_body %}
+<form action="{% url 'gestaoassiduidade:picagens_edit' finger_id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <a href="{% url 'gestaoassiduidade:picagens_main' %}" role="button">Cancelar</a>
+    <input type="submit" value="Gravar">
+    <a href="{% url 'gestaoassiduidade:picagens_remove' finger_id %}" role="button">Apagar</a>
+</form>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from .models import Employee, Attendance, Fingerprint
-from .forms import EmployeeForm
+from .forms import EmployeeForm, AttendanceForm
 
 # Create your views here.
 def index_view(request):
@@ -43,6 +43,33 @@ def funcionarios_remove_view(request, func_id):
 	
 
 #Picangens
-def picagens_view(request):
+def picagens_main_view(request):
 	context = {'fingers': Attendance.objects.all(), }
-	return render(request, 'gestaoassiduidade/picagens.html', context)
+	return render(request, 'gestaoassiduidade/picagens/main.html', context)
+
+def picagens_new_view(request):
+	form = AttendanceForm(request.POST or None, request.FILES)
+	if form.is_valid():
+		form.save()
+		return redirect('gestaoassiduidade:picagens_main')
+		
+	context = {'form': form}
+	
+	return render(request, 'gestaoassiduidade/picagens/new.html', context)
+
+
+def picagens_edit_view(request, finger_id):
+	finger = Attendance.objects.get(id_attendance=finger_id)
+	form = AttendanceForm(request.POST or None, instance=finger)
+
+	if form.is_valid():
+		form.save()
+		return HttpResponseRedirect(reverse('gestaoassiduidade:picagens_main'))
+	
+	context = {'form': form, 'finger_id': finger_id}
+	return render(request, 'gestaoassiduidade/picagens/edit.html', context)
+
+
+def picagens_remove_view(request, finger_id):
+	Attendance.objects.get(id_attendance=finger_id).delete()
+	return HttpResponseRedirect(reverse('gestaoassiduidade:picagens_main'))
