@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestão de Assiduidade</title>
+</head>
+<body>
+    <h1>Gestão de Assiduidade</h1>
+    <script>
+        const socket = new WebSocket('ws://localhost:8765');
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const picagem = JSON.stringify(data,null,2);
+            console.log(picagem)
+        };
+    </script>
+</body>
+</html>
