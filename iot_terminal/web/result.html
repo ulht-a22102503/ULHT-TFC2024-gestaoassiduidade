@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestão de Assiduidade</title>
+</head>
+<body>
+    <h1>Gestão de Assiduidade</h1>
+    <h1 id="h1_id"></h1>
+    <h1 id="h1_name"></h1>
+    <h3 id="h1_auth"></h3>
+    <h3 id="h1_issues"></h3>
+
+    <script>
+        const queryString = window.location.search;
+        console.log(queryString);
+        // ?product=shirt&color=blue&newuser&size=m
+        const urlParams = new URLSearchParams(queryString);
+
+        document.getElementById("h1_id").textContent = "ID Funcionário: " + urlParams.get('id')
+        document.getElementById("h1_name").textContent = "Nome Funcionário: " + urlParams.get('name')
+        document.getElementById("h1_auth").textContent = "Auth: " + urlParams.get('auth')
+        document.getElementById("h1_issues").textContent = "Anomalias: " + urlParams.get('issues')
+
+        //const socket = new WebSocket('ws://localhost:8765');
+
+        /*socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const picagem = JSON.stringify(data,null,2);
+            console.log(picagem)
+            const url = 'result.html?auth=' + data.auth + '&id=' + data.id + '&name=' + data.name + '&issues=' + data.issues
+            window.location.href = url
+        };*/
+    </script>
+</body>
+</html>
