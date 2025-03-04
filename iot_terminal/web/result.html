@@ -4,22 +4,31 @@
     <title>Gestão de Assiduidade</title>
 </head>
 <body>
-    <h1>Gestão de Assiduidade</h1>
-    <h1 id="h1_id"></h1>
-    <h1 id="h1_name"></h1>
-    <h3 id="h1_auth"></h3>
-    <h3 id="h1_issues"></h3>
+
+    <main>
+        <h1 id="h1_id"></h1>
+        <h1 id="h1_name"></h1>
+    </main>
+
+    <footer></footer>
 
     <script>
+        // Function to redirect after 5 seconds
+        function goback() {
+            window.location.href = "index.html";
+        }
+
         const queryString = window.location.search;
         console.log(queryString);
-        // ?product=shirt&color=blue&newuser&size=m
         const urlParams = new URLSearchParams(queryString);
 
         document.getElementById("h1_id").textContent = "ID Funcionário: " + urlParams.get('id')
         document.getElementById("h1_name").textContent = "Nome Funcionário: " + urlParams.get('name')
-        document.getElementById("h1_auth").textContent = "Auth: " + urlParams.get('auth')
-        document.getElementById("h1_issues").textContent = "Anomalias: " + urlParams.get('issues')
+
+        document.querySelector("footer").textContent = "Auth: " + urlParams.get('auth') + " | " + new Date().toLocaleString("pt-PT")
+
+        // Call the redirect function after 5 seconds
+        setTimeout(goback, 5000);
 
         //const socket = new WebSocket('ws://localhost:8765');
 
