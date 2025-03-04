@@ -59,6 +59,7 @@ def fingerprint_read(websocket):
     conn = database.connect_to_db()
     database.insert_attendence(conn,func)
     payload = {
+        "auth": "success",
         "id": func,
         "name": "Funcionário",
         "issues": 0,
