@@ -2,12 +2,13 @@
 <html>
 <head>
     <title>Gestão de Assiduidade</title>
+    <link rel="stylesheet" href="css/pico.colors.min.css">
 </head>
 <body>
 
     <main>
-        <h1 id="h1_id"></h1>
         <h1 id="h1_name"></h1>
+        <h1 id="h1_status"></h1>
     </main>
 
     <footer></footer>
@@ -18,12 +19,31 @@
             window.location.href = "index.html";
         }
 
+        function isauthenticated(auth, issues){
+            if (auth === 'success'){
+                if(issues == '0'){ 
+                    document.querySelector("body").className = 'pico-background-green-600' //change background to green
+                    document.getElementById("h1_status").textContent = "Sem anomalias :D"
+                }
+                else{ 
+                    document.querySelector("body").className = 'pico-background-amber-200' //change background to yellow
+                    document.getElementById("h1_status").textContent = "Tem " + issues + " anomalias. Por favor, confirme com os Recursos Humanos"
+                }
+            }
+            else{ 
+                document.querySelector("body").className = 'pico-background-red-600' //change background to red
+                document.getElementById("h1_status").textContent = "Erro na autenticação. Por favor, tente novamente."
+            }
+        }
+
+
         const queryString = window.location.search;
         console.log(queryString);
         const urlParams = new URLSearchParams(queryString);
 
-        document.getElementById("h1_id").textContent = "ID Funcionário: " + urlParams.get('id')
-        document.getElementById("h1_name").textContent = "Nome Funcionário: " + urlParams.get('name')
+        isauthenticated(urlParams.get('auth'), urlParams.get('issues'))
+
+        document.getElementById("h1_name").textContent = "Funcionári@: " + urlParams.get('name') + " (ID:" + urlParams.get('id') + ")"
 
         document.querySelector("footer").textContent = "Auth: " + urlParams.get('auth') + " | " + new Date().toLocaleString("pt-PT")
 
