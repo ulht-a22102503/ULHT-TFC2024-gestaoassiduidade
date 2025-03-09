@@ -8,7 +8,7 @@ from pyfingerprint.pyfingerprint import PyFingerprint
 from pyfingerprint.pyfingerprint import FINGERPRINT_CHARBUFFER1
 from pyfingerprint.pyfingerprint import FINGERPRINT_CHARBUFFER2
 import json
-
+from playsound import playsound
 import dal_terminal_db as database
 
 #Funções para fazer algo com o sensor de impressão digital
@@ -65,6 +65,7 @@ def fingerprint_read(websocket):
         "issues": 0,
     }
     websocket.send(json.dumps(payload))
+    playsound('start-sound-beep-102201.mp3')
     return
 
 
