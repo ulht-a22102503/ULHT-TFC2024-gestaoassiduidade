@@ -1,20 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Gestão de Assiduidade</title>
+<style>
+body {
+  background-image: url('dorina-perry-yQAuEZ6q2yo-unsplash.jpg');
+  background-size: cover;
+}
+
+#container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+#container > button {
+  background-color: rgba(241,241,241,0.8);
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 30px;
+  text-align: center;
+}
+
+#pin-input{
+  font-size: 30px;
+  text-align: center;
+}
+
+</style>
 </head>
 <body>
-    <h1>Gestão de Assiduidade</h1>
-    <script>
-        const socket = new WebSocket('ws://localhost:8765');
+  <input type="password" id="pin-input" maxlength="4" readonly />
 
-        socket.onmessage = function(event) {
-            const data = JSON.parse(event.data);
-            const picagem = JSON.stringify(data,null,2);
-            console.log(picagem)
-            const url = 'result.html?auth=' + data.auth + '&id=' + data.id + '&name=' + data.name + '&issues=' + data.issues
-            window.location.href = url
-        };
-    </script>
+  <div id='container'>
+    <button type="button" id='but1' value="1">1</button>
+    <button type="button" id='but2' value="2">2</button>
+    <button type="button" id='but3' value="3">3</button>
+    <button type="button" id='but4' value="4">4</button>
+    <button type="button" id='but5' value="5">5</button>
+    <button type="button" id='but6' value="6">6</button>
+    <button type="button" id='but7' value="7">7</button>
+    <button type="button" id='but8' value="8">8</button>
+    <button type="button" id='but9' value="9">9</button>
+    <button type="button" id='butHuh' value="IDK">IDK</button>
+    <button type="button" id='but0' value="0">0</button>
+    <button type="button" id='butOK' value="OK">OK</button>
+  </div>
+
+<script>
+    const socket = new WebSocket('ws://localhost:8765');
+
+    socket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        const picagem = JSON.stringify(data,null,2);
+        console.log(picagem)
+        const url = 'result.html?auth=' + data.auth + '&id=' + data.id + '&name=' + data.name + '&issues=' + data.issues
+        window.location.href = url
+    };
+
+    //Variables
+    const pinInput = document.getElementById("pin-input");
+    const numkeys = document.getElementById('container');
+
+    //Events
+    numkeys.addEventListener('click', (event) => {
+      const isButton = event.target.nodeName === 'BUTTON';
+      if (!isButton || event.target.id === 'butOK' || event.target.id === 'butHuh') {
+        return;
+      }
+
+      if(pinInput.value.length < 4)
+      pinInput.value += event.target.value;
+    })
+</script>
 </body>
 </html>
