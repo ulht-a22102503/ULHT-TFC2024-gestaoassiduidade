@@ -42,4 +42,19 @@ def insert_finger(conn, ID_employee, ID_index):
     except mariadb.Error as e: 
         print(f"Error: {e}")
     conn.close()
-    
+
+def insert_pincode(conn, ID_employee, secret_code):
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) FROM credentials WHERE ID_employee=?", (ID_employee,))
+    func_auth_exists = cur.fetchone()[0]
+    conn.close()
+
+    try: 
+        if func_auth_exists == True:
+            conn.cursor().execute("UPDATE credentials SET pincode=? WHERE ID_employee=?", (secret_code, ID_employee,))
+        else:
+            conn.cursor().execute("INSERT INTO credentials (ID_employee,pincode) VALUES (?, ?)", (ID_employee, secret_code))
+        conn.commit()
+    except mariadb.Error as e: 
+        print(f"Error: {e}")
+    conn.close()

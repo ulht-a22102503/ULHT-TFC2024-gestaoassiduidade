@@ -11,7 +11,8 @@ primary key (ID_employee)
 );
 
 CREATE TABLE credentials(
-ID_employee int not null AUTO_INCREMENT,
+ID_fingerprint int not null AUTO_INCREMENT,
+ID_employee int not null UNIQUE,
 ID_sensor_index_main int,
 ID_sensor_index_sec int,
 pincode char(64),
