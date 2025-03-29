@@ -10,10 +10,11 @@ ID_employee int not null AUTO_INCREMENT,
 primary key (ID_employee)
 );
 
-CREATE TABLE fingerprint(
-ID_fingerprint int not null AUTO_INCREMENT,
-ID_employee int not null,
-ID_sensor_index int,
+CREATE TABLE credentials(
+ID_employee int not null AUTO_INCREMENT,
+ID_sensor_index_main int,
+ID_sensor_index_sec int,
+pincode char(64),
 primary key (ID_fingerprint),
 CONSTRAINT fk_employee_fingerprint FOREIGN KEY (ID_employee) REFERENCES employee(ID_employee)
 );
