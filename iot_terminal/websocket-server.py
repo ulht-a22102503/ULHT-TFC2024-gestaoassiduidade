@@ -15,7 +15,7 @@ import dal_terminal_db as database
 def fingerprint_read(websocket):
     #Inicialização do sensor
     try:
-        fp = PyFingerprint('/dev/ttyS0', 57600, 0xFFFFFFFF, 0x00000000)
+        fp = PyFingerprint('/dev/ttyAMA0', 57600, 0xFFFFFFFF, 0x00000000)
 
         if ( fp.verifyPassword() == False ):
             raise ValueError('The given fingerprint sensor password is wrong!')
