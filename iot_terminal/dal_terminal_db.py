@@ -22,9 +22,26 @@ def get_login_match(conn, secret_code):
     result = cur.fetchone()[0]
     conn.close()
 
-    if result is null or result == '':
+    if result is None or result == '':
         return -1
     return result
+
+def does_func_exist(conn, ID_func):
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(ID_employee) FROM employee WHERE ID_employee=?", (ID_func,))
+    ID_func = cur.fetchone()[0]
+    conn.close()
+    if ID_func == 1:
+        return True
+    else:
+        return False
+
+def get_func_fingers(conn, ID_func):
+    cur = conn.cursor()
+    cur.execute("SELECT ID_sensor_index_main, ID_sensor_index_sec FROM credentials WHERE ID_employee=?", (ID_func,))
+    fingers = (cursor.ID_sensor_index_main, cursor.ID_sensor_index_sec)
+    conn.close()
+    return fingers
 
 #insert information
 def insert_attendence(conn, ID_func):
