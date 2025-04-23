@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Page Title</title>
+        <link rel="stylesheet" href="css/pico.colors.min.css">
+        <script type="text/javascript" src="/eel.js"></script>
+    </head>
+<style>
+@font-face {
+    font-family: "GMarketBold";
+    src: url("fonts/GmarketSansBold.otf");
+}
+
+body {
+  background-image: url('img/dorina-perry-yQAuEZ6q2yo-unsplash.jpg');
+  background-size: cover;
+  overflow: hidden;
+}
+
+.container {
+  height: 70vh;
+  display: grid;
+  grid-template-areas:
+    "left middle right";
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+  padding: 5px;
+}
+.container > div {
+  padding: 10px;
+  text-align: center;
+}
+.container > div.primary {
+  grid-area: left;
+  background-color: green;
+}
+.container > div.secondary {
+  grid-area: middle;
+  background-color: orange;
+}
+.container > div.contrast {
+  grid-area: right;
+  background-color: red;
+}
+
+footer{
+  text-align: center;
+  font-family: GMarketBold;
+  color: white;
+  font-size: 20vh;
+  margin-top: 2vh;
+}
+
+</style>
+</head>
+<body onload="clock_update();">
+  <script>
+    function clock_update() {
+  var refresh = 1000; // Refresh rate in milli seconds
+  setInterval(display_clock, refresh)
+}
+
+function display_clock() {
+  var now = new Date()
+  clock = now.getHours().toString().padStart(2,0) + ":" + now.getMinutes().toString().padStart(2,0);
+  document.querySelector('footer').innerHTML = clock;
+  clock_update();
+}
+  </script>
+<div class="container">
+  <div class="primary"><button onclick="">Registar impressão digital</button></div>
+  <div class="secondary"><button>Fazer picagem com impressão digital</button></div>
+  <div class="contrast"><a href="auth_pin.html">Fazer picagem com PIN</a></div>
+</div>
+<footer>00:00</footer>
+</body>
+</html>
