@@ -4,8 +4,14 @@ from playaudio import playaudio
 import fingerprint_functionality as fpSensor
 import dal_terminal_db as database
 
-def auth_finger(finger_reader, db_conn):
-    fp_idx = fpSensor.read(finger_reader)
+def auth_finger():
+    try:
+        finger_reader = fpSensor.init_reader()
+        fp_idx = fpSensor.read(finger_reader)
+    except Exception as e:
+        print('Operation failed!')
+        print('Exception message: ' + str(e))
+        return json.dumps({"auth": "failure"})
     db_conn = database.connect_to_db()
     func = database.get_employee_from_fingerprint(conn,fp_idx)
     print("ID do funcionario",func)
@@ -56,6 +62,7 @@ def main():
     #finger_reader = fpSensor.init_reader()
     eel.init('web') #define a pasta com  o UI html
     eel.expose(auth_pin)
+    eel.expose(auth_finger)
     eel.start('menu.html') #começa o webserver
 
 
