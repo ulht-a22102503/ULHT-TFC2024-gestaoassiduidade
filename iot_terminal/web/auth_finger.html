@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>Page Title</title>
+    <link rel="stylesheet" href="css/pico.colors.min.css">
+    <script type="text/javascript" src="/eel.js"></script>
+<style>
+@font-face {
+    font-family: "GMarketBold";
+    src: url("fonts/GmarketSansBold.otf");
+}
+
+body {
+  background-image: url('img/dorina-perry-yQAuEZ6q2yo-unsplash.jpg');
+  background-size: cover;
+  overflow: hidden;
+  text-align: center;
+  font-family: GMarketBold;
+  color: white;
+  font-size: 64px;
+}
+</style>
+</head>
+<body>
+  <h1>Coloque o dedo no sensor</h1>
+
+<script>
+    //Variables
+    const pinInput = document.getElementById("pin-input");
+    const numkeys = document.getElementById('container');
+
+    function goToResult(payload){
+        let url;
+        picagem = JSON.parse(payload)
+        if(picagem.auth==="success"){
+          url = 'result.html?auth=' + picagem.auth + '&id=' + picagem.id + '&name=' + picagem.name + '&issues=' + picagem.issues
+        }
+        else{
+          url = 'menu.html'
+        }
+        window.location.href = url
+    }
+
+    eel.auth_pin()(goToResult); //callback será decidewhatsnext()
+</script>
+</body>
+</html>
