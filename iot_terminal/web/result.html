@@ -3,6 +3,7 @@
 <head>
     <title>Gestão de Assiduidade</title>
     <link rel="stylesheet" href="css/pico.colors.min.css">
+    <script type="text/javascript" src="/eel.js"></script>
 </head>
 <body>
 
@@ -16,7 +17,7 @@
     <script>
         // Function to redirect after 5 seconds
         function goback() {
-            window.location.href = "index.html";
+            window.location.href = "menu.html";
         }
 
         function isauthenticated(auth, issues){
@@ -49,16 +50,6 @@
 
         // Call the redirect function after 5 seconds
         setTimeout(goback, 5000);
-
-        //const socket = new WebSocket('ws://localhost:8765');
-
-        /*socket.onmessage = function(event) {
-            const data = JSON.parse(event.data);
-            const picagem = JSON.stringify(data,null,2);
-            console.log(picagem)
-            const url = 'result.html?auth=' + data.auth + '&id=' + data.id + '&name=' + data.name + '&issues=' + data.issues
-            window.location.href = url
-        };*/
     </script>
 </body>
 </html>
