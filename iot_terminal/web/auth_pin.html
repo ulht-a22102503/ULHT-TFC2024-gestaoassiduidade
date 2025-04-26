@@ -50,31 +50,17 @@ body {
   </div>
 
 <script>
-    //const socket = new WebSocket('ws://localhost:8765');
-
-    //socket.onmessage = function(event) {
-    //    const data = JSON.parse(event.data);
-    //    const picagem = JSON.stringify(data,null,2);
-    //    console.log(picagem)
-    //    const url = 'result.html?auth=' + data.auth + '&id=' + data.id + '&name=' + data.name + '&issues=' + data.issues
-    //    window.location.href = url
-    //};
-
     //Variables
     const pinInput = document.getElementById("pin-input");
     const numkeys = document.getElementById('container');
 
     function decidewhatsnext(payload){
-      //se estiver certo manda para a frente
-      //se estiver errado volta ao menu
-      const data = JSON.parse(event.data);
-        const picagem = JSON.stringify(data,null,2);
-        console.log(picagem)
-        if(data.auth==="success"){
-          const url = 'result.html?auth=' + data.auth + '&id=' + data.id + '&name=' + data.name + '&issues=' + data.issues
+        let url;
+        if(payload.auth==="success"){
+          url = 'result.html?auth=' + payload.auth + '&id=' + payload.id + '&name=' + payload.name + '&issues=' + payload.issues
         }
         else{
-          const url = 'menu.html'
+          url = 'menu.html'
         }
         window.location.href = url
     }
@@ -89,8 +75,7 @@ body {
           secret_code : pinInput.value,
         }
         console.log(payload);
-        eel.auth_pin(payload)(decidewhatsnext); //coiso do callback
-        //socket.send(payload);
+        eel.auth_pin(payload)(decidewhatsnext); //callback será decidewhatsnext()
         pinInput.value = "";
         return;
       }
