@@ -16,25 +16,25 @@ def get_employee_from_fingerprint(conn, ID_finger):
     conn.close()
     return ID_func
 
-def get_login_match(conn, secret_code):
+def get_login_match(conn, ID_func, secret_code):
     cur = conn.cursor()
-    cur.execute("SELECT ID_employee FROM credentials WHERE pincode=SHA2(?,256)", (secret_code,))
-    result = cur.fetchone()[0]
+    cur.execute("SELECT ID_employee FROM credentials WHERE ID_employee=? AND pincode=SHA2(?,256)", (ID_func, secret_code,))
+    result = cur.fetchone()
     conn.close()
 
-    if result is None or result == '':
+    if result == None:
         return -1
-    return result
+    return result[0]
 
 def does_func_exist(conn, ID_func):
     cur = conn.cursor()
     cur.execute("SELECT COUNT(ID_employee) FROM employee WHERE ID_employee=?", (ID_func,))
-    ID_func = cur.fetchone()[0]
+    ID_func = cur.fetchone()
     conn.close()
-    if ID_func == 1:
-        return True
-    else:
+
+    if ID_func == None:
         return False
+    return True
 
 def get_func_fingers(conn, ID_func):
     cur = conn.cursor()
