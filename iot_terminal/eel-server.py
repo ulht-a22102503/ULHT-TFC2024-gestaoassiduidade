@@ -13,7 +13,7 @@ def auth_finger():
         print('Exception message: ' + str(e))
         return json.dumps({"auth": "failure"})
     db_conn = database.connect_to_db()
-    func = database.get_employee_from_fingerprint(conn,fp_idx)
+    func = database.get_employee_from_fingerprint(db_conn,fp_idx)
     print("ID do funcionario",func)
     db_conn = database.connect_to_db()
     database.insert_attendence(db_conn,func)
