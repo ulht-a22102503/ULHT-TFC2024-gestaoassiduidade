@@ -12,7 +12,7 @@ Trabalho final de curso - Aplicação de gestão de assiduidade
 - Python 3
 - Django
 
-This guide was tested on a Raspberry Pi 4 running RaspberryOS 64-bit
+This guide was tested on a Raspberry Pi 4 and Raspberry Pi 5 running RaspberryOS 64-bit
 
 Begin by cloning this repository to the RPi.
 
@@ -39,10 +39,8 @@ To run, you must go to `$HOME/Documents/` and activate the venv. Then navigate t
 
 ```bash
 .iot_terminal-venv/bin/activate
-python3 websocket-server.py`
-
-python3 main_process.py
-python3 websocket-server.py
+cd <repository_folder>/iot_terminal
+python3 eel-server.py`
 ```
 
 ### Django
@@ -58,3 +56,9 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
+
+# Docs
+
+## Terminal backend
+
+The backend mainly works with JSON payloads, check the [.md file](/iot_terminal/payload_format.md) with the format for each function.
