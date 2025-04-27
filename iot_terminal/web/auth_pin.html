@@ -7,7 +7,7 @@
     <script type="text/javascript" src="/eel.js"></script>
 <style>
 body {
-  background-image: url('dorina-perry-yQAuEZ6q2yo-unsplash.jpg');
+  background-image: url('img/dorina-perry-yQAuEZ6q2yo-unsplash.jpg');
   background-size: cover;
 }
 
@@ -31,8 +31,8 @@ body {
 
 </style>
 </head>
-<body>
-  <input type="password" id="pin-input" maxlength="4" readonly />
+<body onload="setPageThingies();">
+  <label id="lblInput"></label><input id="tbxInput" maxlength="4" readonly />
 
   <div id='container'>
     <button type="button" id='but1' value="1">1</button>
@@ -51,7 +51,7 @@ body {
 
 <script>
     //Variables
-    const pinInput = document.getElementById("pin-input");
+    const tbxInput = document.getElementById("tbxInput");
     const numkeys = document.getElementById('container');
 
     function decidewhatsnext(payload){
@@ -65,23 +65,49 @@ body {
         window.location.href = url
     }
 
+    //Corre no onLoad
+    function setPageThingies(){
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+
+        if (urlParams.has('id')){ //Já foi introduzido o ID do funcionário, falta o PIN
+          tbxInput.type = 'password';
+          document.getElementById('lblInput').textContent = "PIN do funcionário " + urlParams.get('id') + ": ";
+        }
+        else{
+          tbxInput.type = 'number';
+          document.getElementById('lblInput').textContent = "ID do funcionário: ";
+        }
+    }
+
+
+    function iForgor(){
+      if(document.getElementById('tbxInput').type === 'password'){ 
+        let payload = {
+          type : "PIN",
+          id: new URLSearchParams(window.location.search).get('id'),
+          secret_code : tbxInput.value,
+        }
+        console.log(payload);
+        eel.auth_pin(payload)(decidewhatsnext); //callback será decidewhatsnext()
+      }
+      else{
+        window.location.href = "auth_pin.html?id=" + tbxInput.value;
+      }
+    }
+
     //Events
     numkeys.addEventListener('click', (event) => {
       const isButton = event.target.nodeName === 'BUTTON';
       if (!isButton || event.target.id === 'butOK' || event.target.id === 'butHuh') {
-        let payload = {
-          type : "PIN",
-          id: 2,
-          secret_code : pinInput.value,
-        }
-        console.log(payload);
-        eel.auth_pin(payload)(decidewhatsnext); //callback será decidewhatsnext()
-        pinInput.value = "";
+        iForgor();
+        tbxInput.value = "";
         return;
       }
 
-      if(pinInput.value.length < 4)
-      pinInput.value += event.target.value;
+      if(tbxInput.value.length < 4)
+      tbxInput.value += event.target.value;
     })
 </script>
 </body>

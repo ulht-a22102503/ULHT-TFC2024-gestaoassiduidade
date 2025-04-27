@@ -30,7 +30,7 @@ def auth_finger():
 
 def auth_pin(payload):
     db_conn = database.connect_to_db()
-    result = database.get_login_match(db_conn, payload['secret_code'])
+    result = database.get_login_match(db_conn, payload['id'], payload['secret_code'])
     if result == -1:
         auth_res = "failure"
     else:
