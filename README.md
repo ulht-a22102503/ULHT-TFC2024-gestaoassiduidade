@@ -62,3 +62,11 @@ python manage.py runserver
 ## Terminal backend
 
 The backend mainly works with JSON payloads, check the [.md file](/iot_terminal/payload_format.md) with the format for each function.
+
+## Beep codes
+
+The attendance is confirmed through a sequence of beeps:
+
+- 1 beep: OK
+- 2 beeps: Warning
+- 3 beeps: Failure

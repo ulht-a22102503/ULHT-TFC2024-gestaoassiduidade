@@ -1,6 +1,6 @@
 import eel
 import json
-from playaudio import playaudio
+import playsound3
 import fingerprint_functionality as fpSensor
 import dal_terminal_db as database
 
@@ -11,6 +11,7 @@ def auth_finger():
     except Exception as e:
         print('Operation failed!')
         print('Exception message: ' + str(e))
+        playsound("audio/3-beeps.mp3", block=False)
         return json.dumps({"auth": "failure"})
     db_conn = database.connect_to_db()
     func = database.get_employee_from_fingerprint(db_conn,fp_idx)
@@ -24,7 +25,10 @@ def auth_finger():
         "name": "Funcionário",
         "issues": 0,
     }
-    playaudio('start-sound-beep-102201.mp3') #Passar isto para uma função diferente
+    if issues == 0:
+        playsound("audio/1-beep.mp3", block=False)
+    else:
+        playsound("audio/2-beeps.mp3", block=False)
     return json.dumps(payload)
 
 
@@ -33,6 +37,7 @@ def auth_pin(payload):
     result = database.get_login_match(db_conn, payload['id'], payload['secret_code'])
     if result == -1:
         auth_res = "failure"
+        playsound("audio/3-beeps.mp3", block=False)
     else:
         auth_res = "success"
         db_conn = database.connect_to_db()
@@ -44,7 +49,10 @@ def auth_pin(payload):
         "name": "Funcionário",
         "issues": 0,
     }
-    playaudio('start-sound-beep-102201.mp3') #Passar isto para uma função diferente
+    if issues == 0:
+        playsound("audio/1-beep.mp3", block=False)
+    else:
+        playsound("audio/2-beeps.mp3", block=False)
     return payload_produce
 
 
