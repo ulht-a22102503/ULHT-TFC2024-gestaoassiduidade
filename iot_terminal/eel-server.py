@@ -56,14 +56,51 @@ def auth_pin(payload):
     return payload_produce
 
 
-def enroll(finger_reader, db_conn, func_id):
+def enroll(func_id):
+    finger_reader = fpSensor.init_reader()
     db_conn = database.connect_to_db()
     result = database.does_func_exist(db_conn, func_id)
     if result == False:
-        print('Esse trabalhador não existe')
-    fp_idx = fpSensor.enroll(finger_reader)
-    database.insert_finger(db_conn,func_id,fp_idx)
-    playaudio('start-sound-beep-102201.mp3') #Passar isto para uma função diferente
+        #indicar que o trabalhador não existe
+        print('O trabalhador não existe')
+    
+    #verificar se o funcionário existe na tabela credentials ou se a impressão digital secundária é -1
+    fingers = database.get_func_fingers(db_conn, result)
+    fp_type = str
+    if fingers == None:
+        fp_type = 'primary'
+    elif fingers[0] > 0 and fingers[0] == -1:
+        fp_type = 'alternative'
+    
+    #mostrar no ecrã para colocar dedo
+
+    #construir o modelo para a impressão digital
+    # 1) enroll parte 1 para a 1ª leitura
+    fp_cnt = fpSensor.enroll_part1(finger_reader)
+    # 2) mostrar no ecrã para tirar dedo
+    eel.updateText("Retire o dedo do sensor")
+    # 3) esperar 3 segundos e mostrar no ecrã para colocar dedo novamente
+    eel.sleep(3.0)
+    eel.updateText("Coloque o dedo novamente no sensor")
+    # 4) enroll parte 2 para 2ª leitura
+    fp_idx = fpSensor.enroll_part2(finger_reader,fp_cnt)
+    # 5) em caso de sucesso, guardar o índice para o dedo na BD
+    enroll = str
+    if fp_idx != -1:
+        enroll = "success"
+        if fp_type == "primary":
+            database.insert_finger(db_conn,func_id,fp_idx)
+        else:
+            database.insert_alt_finger(db_conn,func_id,fp_idx)
+        playsound("audio/1-beep.mp3", block=False)
+    else:
+        enroll = "failure"
+        playsound("audio/3-beeps.mp3", block=False)
+    # 6) mostrar informação de erro/sucesso e voltar ao menu
+    payload = {
+        "enroll": status,
+    }
+    return payload
 
 
 def main():
