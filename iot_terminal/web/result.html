@@ -37,12 +37,21 @@
             }
         }
 
+        function isEnrolled(){
+            document.querySelector("body").className = 'pico-background-green-600' //change background to green
+            document.getElementById("h1_status").textContent = "Dedo registado com sucesso"
+        }
 
         const queryString = window.location.search;
         console.log(queryString);
         const urlParams = new URLSearchParams(queryString);
-
-        isauthenticated(urlParams.get('auth'), urlParams.get('issues'))
+        
+        if(urlParams.has('enroll')){
+            isEnrolled()
+        }
+        else{
+            isauthenticated(urlParams.get('auth'), urlParams.get('issues'))
+        }
 
         document.getElementById("h1_name").textContent = "Funcionári@: " + urlParams.get('name') + " (ID:" + urlParams.get('id') + ")"
 

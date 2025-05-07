@@ -26,12 +26,11 @@ body {
   <h1>Coloque o dedo no sensor</h1>
 
 <script>
-    //Variables
     function goToResult(payload){
         let url;
-        picagem = JSON.parse(payload)
-        if(picagem.auth==="success"){
-          url = 'result.html?auth=' + picagem.auth + '&id=' + picagem.id + '&name=' + picagem.name + '&issues=' + picagem.issues
+        result = JSON.parse(payload)
+        if(result.enroll==="success"){
+          url = 'result.html?enroll=' + result.enroll;
         }
         else{
           url = 'menu.html'
@@ -39,7 +38,12 @@ body {
         window.location.href = url
     }
 
-    eel.auth_finger()(goToResult); //callback será decidewhatsnext()
+    eel.expose(updateText);
+    function updateText(text){
+        document.querySelector('h1').textContent = text;
+    }
+
+    eel.enroll()(goToResult); //callback será decidewhatsnext()
 </script>
 </body>
 </html>

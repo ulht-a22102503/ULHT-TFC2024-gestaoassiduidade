@@ -60,6 +60,14 @@ def insert_finger(conn, ID_employee, ID_index):
         print(f"Error: {e}")
     conn.close()
 
+def insert_alt_finger(conn, ID_employee, ID_index):
+    try: 
+        conn.cursor().execute("UPDATE credentials SET ID_sensor_index_sec=? WHERE ID_employee=?", (ID_employee, ID_index))
+        conn.commit()
+    except mariadb.Error as e: 
+        print(f"Error: {e}")
+    conn.close()
+
 def insert_pincode(conn, ID_employee, secret_code):
     cur = conn.cursor()
     cur.execute("SELECT COUNT(*) FROM credentials WHERE ID_employee=?", (ID_employee,))
