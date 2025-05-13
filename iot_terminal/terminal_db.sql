@@ -28,6 +28,23 @@ primary key (ID_attendance),
 CONSTRAINT fk_attendance_fingerprint FOREIGN KEY (ID_employee) REFERENCES employee(ID_employee)
 );
 
+CREATE TABLE schedule(
+    ID_schedule int not null AUTO_INCREMENT,
+    valid_on date not null,
+    ID_shift int not null,
+    ID_employee int not null,
+    primary key (ID_schedule),
+);
+
+CREATE TABLE shift(
+    ID_shift int not null AUTO_INCREMENT,
+    time_begin timestamp not null,
+    time_end timestamp not null,
+    break_begin timestamp not null,
+    break_end timestamp not null,
+    primary key (ID_attendance),
+);
+
 -- 2. user creation
 GRANT ALL PRIVILEGES ON terminal.* TO 'assiduidade'@'localhost' IDENTIFIED BY 'password';
 FLUSH PRIVILEGES;
