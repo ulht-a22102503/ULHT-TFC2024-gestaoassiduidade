@@ -6,8 +6,10 @@ USE terminal;
 
 CREATE TABLE employee(
 ID_employee int not null AUTO_INCREMENT,
+ID_role char(4) not null,
 `name` varchar(200) not null,
-primary key (ID_employee)
+primary key (ID_employee),
+CONSTRAINT fk_employee_job_role FOREIGN KEY (ID_role) REFERENCES job_role(ID_role)
 );
 
 CREATE TABLE credentials(
@@ -17,7 +19,7 @@ ID_sensor_index_main int,
 ID_sensor_index_sec int,
 pincode char(64),
 primary key (ID_fingerprint),
-CONSTRAINT fk_employee_fingerprint FOREIGN KEY (ID_employee) REFERENCES employee(ID_employee)
+CONSTRAINT fk_credentials_employee FOREIGN KEY (ID_employee) REFERENCES employee(ID_employee)
 );
 
 CREATE TABLE attendance(
@@ -31,18 +33,32 @@ CONSTRAINT fk_attendance_fingerprint FOREIGN KEY (ID_employee) REFERENCES employ
 CREATE TABLE schedule(
     ID_schedule int not null AUTO_INCREMENT,
     valid_on date not null,
-    ID_shift int not null,
+    ID_workcode char(4) not null,
+    ID_shift int,
     ID_employee int not null,
     primary key (ID_schedule),
 );
 
 CREATE TABLE shift(
     ID_shift int not null AUTO_INCREMENT,
-    time_begin timestamp not null,
-    time_end timestamp not null,
-    break_begin timestamp not null,
-    break_end timestamp not null,
+    time_begin TIME(4) not null, --HH:MM
+    break_begin TIME(4),
+    break_end TIME(4),
+    time_end TIME(4) not null,
     primary key (ID_attendance),
+    CONSTRAINT fk_shift_role FOREIGN KEY (ID_role) REFERENCES job_role(ID_role)
+);
+
+CREATE TABLE job_role(
+    ID_role char(4) not null,
+    descript char(50) not null,
+    primary key (ID_role)
+);
+
+CREATE TABLE workcode( --O que estiver no programa de salários
+    ID_workcode char(4) not null,
+    code_type bit not null, --1 presença, 0 ausência
+    descript char(30) not null,
 );
 
 -- 2. user creation
