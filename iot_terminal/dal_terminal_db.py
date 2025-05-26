@@ -43,10 +43,42 @@ def get_func_fingers(conn, ID_func):
     conn.close()
     return fingers
 
+def get_today_schedule(conn, ID_func):
+    cur = conn.cursor()
+    cur.execute("SELECT time_begin, break_begin, break_end, time_end FROM schedule INNER JOIN ID_shift ON schedule.ID_shift = shift.ID_shift WHERE ID_employee = ? AND valid_on = TODAY()", (ID_func,))
+    times = (cursor.time_begin, cursor.break_begin, cursor.break_end, cursor.time_end)
+    conn.close()
+    return times
+
+#SELECT time_begin, break_begin, break_end, time_end FROM schedule INNER JOIN ID_shift ON schedule.ID_shift = shift.ID_shift WHERE ID_employee = ? AND valid_on = TODAY()
+
+def get_today_attendance(conn, ID_func):
+    cur = conn.cursor()
+    cur.execute("SELECT [timestamp] FROM attendance WHERE ID_employee=? AND [timestamp] >= TODAY()", (ID_func,)) #Apenas precisa de acontecer depois da meia noite
+    att_recs = [record for record in cur]
+    conn.close()
+    return att_recs
+
 #insert information
 def insert_attendence(conn, ID_func):
     try: 
         conn.cursor().execute("INSERT INTO attendance (ID_employee,timestamp) VALUES (?, NOW())", (ID_func,))
+        conn.commit()
+    except mariadb.Error as e: 
+        print(f"Error: {e}")
+    conn.close()
+
+def insert_schedule(conn, ID_func, day, workcode, shift):
+    try: 
+        conn.cursor().execute("INSERT INTO schedule (ID_employee,valid_on,ID_workcode,ID_shift) VALUES (?, ?, ?, ?)", (ID_func,day, workcode, shift))
+        conn.commit()
+    except mariadb.Error as e: 
+        print(f"Error: {e}")
+    conn.close()
+
+def insert_schedule(conn, ID_func, day, workcode):
+    try: 
+        conn.cursor().execute("INSERT INTO schedule (ID_employee,valid_on,ID_workcode) VALUES (?, ?, ?)", (ID_func,day, workcode))
         conn.commit()
     except mariadb.Error as e: 
         print(f"Error: {e}")
