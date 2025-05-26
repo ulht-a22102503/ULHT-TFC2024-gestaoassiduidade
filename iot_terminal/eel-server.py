@@ -1,6 +1,7 @@
 import eel
 import json
 import playsound3
+import datetime
 import fingerprint_functionality as fpSensor
 import dal_terminal_db as database
 
@@ -42,12 +43,18 @@ def auth_pin(payload):
         auth_res = "success"
         db_conn = database.connect_to_db()
         database.insert_attendence(db_conn,result)
+        #obter picagens das últimas 26 horas
+        get_today_attendance(conn, payload['id'])
+        #obter horário
+        get_today_schedule(conn, payload['id'])
+        #lógica para verificar anomalias
+        issue_cnt = check_anomalies(None, None)
     payload_produce = {
         "auth": auth_res,
         "type":"PIN",
-        "id": result,
+        "id": payload['id'],
         "name": "Funcionário",
-        "issues": 0,
+        "issues": issue_cnt,
     }
     if issues == 0:
         playsound("audio/1-beep.mp3", block=False)
@@ -101,6 +108,27 @@ def enroll(func_id):
         "enroll": status,
     }
     return payload
+
+def check_anomalies(schedule, att_records):
+    anomaly_cnt = 0
+    if len(schedule) == 0 and att_records != 0:
+        #não era esperado o trabalhador estar ao serviço
+        anomaly_cnt+=4
+
+    currently = datetime.datetime.now()
+    #ver quantas picagens eram esperadas até ao momento
+    att_expected = len([expected for shift_time in schedule if shift_time <= currently.time])
+    if att_expected != att_records:
+        #existem x picagens em falta
+        anomaly_cnt+=abs(att_expected-att_records)
+
+    #existem registos, mas estão fora da tolerância
+    tolerance = datetime.timedelta(minutes=15)
+    for shift_time in att_expected:
+        if (attendance in att_records) < (shift_time - tolerance) or (shift_time + tolerance) > (attendance in att_records):
+            anomaly_cnt+=1
+
+    return anomaly_cnt
 
 
 def main():
