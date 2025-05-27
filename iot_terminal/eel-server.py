@@ -24,14 +24,22 @@ def auth_finger():
     print("ID do funcionario",func)
     db_conn = database.connect_to_db()
     database.insert_attendence(db_conn,func)
+    #obter picagens das últimas 26 horas
+    db_conn = database.connect_to_db()
+    database.get_today_attendance(db_conn, func)
+    #obter horário
+    db_conn = database.connect_to_db()
+    database.get_today_schedule(db_conn, func)
+    #lógica para verificar anomalias
+    issue_cnt = check_anomalies(None, None)
     payload = {
         "auth": "success",
         "type": "fingerprint",
         "id": func,
-        "name": "Funcionário",
-        "issues": 0,
+        "name": "Funcionári@",
+        "issues": issue_cnt,
     }
-    if issues == 0:
+    if issue_cnt == 0:
         playsound("audio/1-beep.mp3", block=False)
     else:
         playsound("audio/2-beeps.mp3", block=False)
@@ -50,16 +58,18 @@ def auth_pin(payload):
         db_conn = database.connect_to_db()
         database.insert_attendence(db_conn,result)
         #obter picagens das últimas 26 horas
-        get_today_attendance(conn, payload['id'])
+        db_conn = database.connect_to_db()
+        database.get_today_attendance(db_conn, payload['id'])
         #obter horário
-        get_today_schedule(conn, payload['id'])
+        db_conn = database.connect_to_db()
+        database.get_today_schedule(db_conn, payload['id'])
         #lógica para verificar anomalias
         issue_cnt = check_anomalies(None, None)
     payload_produce = {
         "auth": auth_res,
         "type":"PIN",
         "id": payload['id'],
-        "name": "Funcionário",
+        "name": "Funcionári@",
         "issues": issue_cnt,
     }
     if issue_cnt == 0:
