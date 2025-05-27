@@ -1,6 +1,6 @@
 import eel
 import json
-import playsound3
+from playsound3 import playsound
 import datetime
 import fingerprint_functionality as fpSensor
 import dal_terminal_db as database
@@ -36,6 +36,7 @@ def auth_finger():
 def auth_pin(payload):
     db_conn = database.connect_to_db()
     result = database.get_login_match(db_conn, payload['id'], payload['secret_code'])
+    issue_cnt = 0
     if result == -1:
         auth_res = "failure"
         playsound("audio/3-beeps.mp3", block=False)
@@ -56,7 +57,7 @@ def auth_pin(payload):
         "name": "Funcionário",
         "issues": issue_cnt,
     }
-    if issues == 0:
+    if issue_cnt == 0:
         playsound("audio/1-beep.mp3", block=False)
     else:
         playsound("audio/2-beeps.mp3", block=False)
