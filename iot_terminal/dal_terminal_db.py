@@ -39,22 +39,22 @@ def does_func_exist(conn, ID_func):
 def get_func_fingers(conn, ID_func):
     cur = conn.cursor()
     cur.execute("SELECT ID_sensor_index_main, ID_sensor_index_sec FROM credentials WHERE ID_employee=?", (ID_func,))
-    fingers = (cursor.ID_sensor_index_main, cursor.ID_sensor_index_sec)
+    fingers = (cur.ID_sensor_index_main, cur.ID_sensor_index_sec)
     conn.close()
     return fingers
 
 def get_today_schedule(conn, ID_func):
     cur = conn.cursor()
-    cur.execute("SELECT time_begin, break_begin, break_end, time_end FROM schedule INNER JOIN ID_shift ON schedule.ID_shift = shift.ID_shift WHERE ID_employee = ? AND valid_on = TODAY()", (ID_func,))
-    times = (cursor.time_begin, cursor.break_begin, cursor.break_end, cursor.time_end)
+    cur.execute("SELECT time_begin, break_begin, break_end, time_end FROM schedule INNER JOIN shift ON schedule.ID_shift = shift.ID_shift WHERE ID_employee = ? AND valid_on = CURDATE()", (ID_func,))
+    times = set()
+    if cur.rowcount != 0:
+        times = (cur.time_begin, cur.break_begin, cur.break_end, cur.time_end)
     conn.close()
     return times
 
-#SELECT time_begin, break_begin, break_end, time_end FROM schedule INNER JOIN ID_shift ON schedule.ID_shift = shift.ID_shift WHERE ID_employee = ? AND valid_on = TODAY()
-
 def get_today_attendance(conn, ID_func):
     cur = conn.cursor()
-    cur.execute("SELECT [timestamp] FROM attendance WHERE ID_employee=? AND [timestamp] >= TODAY()", (ID_func,)) #Apenas precisa de acontecer depois da meia noite
+    cur.execute("SELECT `timestamp` FROM attendance WHERE ID_employee=? AND `timestamp` >= CURDATE()", (ID_func,)) #Apenas precisa de acontecer depois da meia noite
     att_recs = [record for record in cur]
     conn.close()
     return att_recs
@@ -62,7 +62,7 @@ def get_today_attendance(conn, ID_func):
 #insert information
 def insert_attendence(conn, ID_func):
     try: 
-        conn.cursor().execute("INSERT INTO attendance (ID_employee,timestamp) VALUES (?, NOW())", (ID_func,))
+        conn.cursor().execute("INSERT INTO attendance (ID_employee,`timestamp`) VALUES (?, NOW())", (ID_func,))
         conn.commit()
     except mariadb.Error as e: 
         print(f"Error: {e}")
