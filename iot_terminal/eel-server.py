@@ -112,9 +112,9 @@ def enroll(func_id):
 
 def check_anomalies(schedule, att_records):
     anomaly_cnt = 0
-    if len(schedule) == 0 and att_records != 0:
+    if schedule is None and att_records != 0:
         #não era esperado o trabalhador estar ao serviço
-        anomaly_cnt+=4
+        return 4
 
     currently = datetime.datetime.now()
     #ver quantas picagens eram esperadas até ao momento
