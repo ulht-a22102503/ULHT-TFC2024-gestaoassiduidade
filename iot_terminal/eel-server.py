@@ -14,6 +14,11 @@ def auth_finger():
         print('Exception message: ' + str(e))
         playsound("audio/3-beeps.mp3", block=False)
         return json.dumps({"auth": "failure"})
+    
+    if fp_idx is None or fp_idx < 0:
+        playsound("audio/3-beeps.mp3", block=False)
+        return json.dumps({"auth": "failure"})
+
     db_conn = database.connect_to_db()
     func = database.get_employee_from_fingerprint(db_conn,fp_idx)
     print("ID do funcionario",func)
