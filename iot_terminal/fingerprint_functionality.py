@@ -35,7 +35,7 @@ def read(fp):
             accuracyScore = result[1]
 
             if ( positionNumber == -1 ):
-                print('No match found!')
+                raise ValueError('No match found!')
                 return
             else:
                 print('Found template at position #' + str(positionNumber))
