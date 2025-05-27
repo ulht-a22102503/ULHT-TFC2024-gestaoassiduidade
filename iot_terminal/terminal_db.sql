@@ -4,6 +4,37 @@ CREATE DATABASE terminal;
 
 USE terminal;
 
+CREATE TABLE schedule(
+    ID_schedule int not null AUTO_INCREMENT,
+    valid_on date not null,
+    ID_workcode char(4) not null,
+    ID_shift int,
+    ID_employee int not null,
+    primary key (ID_schedule)
+);
+
+CREATE TABLE shift(
+    ID_shift int not null AUTO_INCREMENT,
+    time_begin TIME(4) not null, -- HH:MM
+    break_begin TIME(4),
+    break_end TIME(4),
+    time_end TIME(4) not null,
+    primary key (ID_shift)
+);
+
+CREATE TABLE job_role(
+    ID_role char(4) not null,
+    descript char(50) not null,
+    primary key (ID_role)
+);
+
+CREATE TABLE workcode(
+    ID_workcode char(4) not null,
+    code_type bit not null, -- 1 present, 0 missing
+    descript char(30) not null,
+    primary key (ID_workcode)
+);
+
 CREATE TABLE employee(
 ID_employee int not null AUTO_INCREMENT,
 ID_role char(4) not null,
@@ -28,37 +59,6 @@ ID_employee int not null,
 `timestamp` timestamp not null,
 primary key (ID_attendance),
 CONSTRAINT fk_attendance_fingerprint FOREIGN KEY (ID_employee) REFERENCES employee(ID_employee)
-);
-
-CREATE TABLE schedule(
-    ID_schedule int not null AUTO_INCREMENT,
-    valid_on date not null,
-    ID_workcode char(4) not null,
-    ID_shift int,
-    ID_employee int not null,
-    primary key (ID_schedule),
-);
-
-CREATE TABLE shift(
-    ID_shift int not null AUTO_INCREMENT,
-    time_begin TIME(4) not null, --HH:MM
-    break_begin TIME(4),
-    break_end TIME(4),
-    time_end TIME(4) not null,
-    primary key (ID_attendance),
-    CONSTRAINT fk_shift_role FOREIGN KEY (ID_role) REFERENCES job_role(ID_role)
-);
-
-CREATE TABLE job_role(
-    ID_role char(4) not null,
-    descript char(50) not null,
-    primary key (ID_role)
-);
-
-CREATE TABLE workcode( --O que estiver no programa de salários
-    ID_workcode char(4) not null,
-    code_type bit not null, --1 presença, 0 ausência
-    descript char(30) not null,
 );
 
 -- 2. user creation
