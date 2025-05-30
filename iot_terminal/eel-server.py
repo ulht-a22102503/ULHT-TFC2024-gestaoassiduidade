@@ -35,8 +35,8 @@ def auth_finger():
     payload = {
         "auth": "success",
         "type": "fingerprint",
-        "id": func,
-        "name": "Funcionári@",
+        "id": func[0],
+        "name": func[1],
         "issues": issue_cnt,
     }
     if issue_cnt == 0:
@@ -50,13 +50,13 @@ def auth_pin(payload):
     db_conn = database.connect_to_db()
     result = database.get_login_match(db_conn, payload['id'], payload['secret_code'])
     issue_cnt = 0
-    if result == -1:
+    if result is None:
         auth_res = "failure"
         playsound("audio/3-beeps.mp3", block=False)
     else:
         auth_res = "success"
         db_conn = database.connect_to_db()
-        database.insert_attendence(db_conn,result)
+        database.insert_attendence(db_conn,result[0])
         #obter picagens das últimas 26 horas
         db_conn = database.connect_to_db()
         database.get_today_attendance(db_conn, payload['id'])
@@ -68,8 +68,8 @@ def auth_pin(payload):
     payload_produce = {
         "auth": auth_res,
         "type":"PIN",
-        "id": payload['id'],
-        "name": "Funcionári@",
+        "id": result[0],
+        "name": result[1],
         "issues": issue_cnt,
     }
     if issue_cnt == 0:
@@ -154,7 +154,7 @@ def main():
     eel.init('web') #define a pasta com  o UI html
     eel.expose(auth_pin)
     eel.expose(auth_finger)
-    eel.start('menu.html', close_callback= keep_running) #começa o webserver
+    eel.start('menu.html', close_callback= keep_running, cmdline_args=['--start-fullscreen']) #começa o webserver
 
 
 if __name__ == '__main__':
