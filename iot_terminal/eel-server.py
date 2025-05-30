@@ -146,13 +146,15 @@ def check_anomalies(schedule, att_records):
 
     return anomaly_cnt
 
+def keep_running():
+    pass
 
 def main():
     #finger_reader = fpSensor.init_reader()
     eel.init('web') #define a pasta com  o UI html
     eel.expose(auth_pin)
     eel.expose(auth_finger)
-    eel.start('menu.html') #começa o webserver
+    eel.start('menu.html', close_callback= keep_running) #começa o webserver
 
 
 if __name__ == '__main__':
