@@ -2,14 +2,26 @@
 <html>
     <head>
         <meta charset='utf-8'>
-        <title>Page Title</title>
+        <title>Terminal de picagem - menu</title>
         <link rel="stylesheet" href="css/pico.colors.min.css">
         <script type="text/javascript" src="/eel.js"></script>
     </head>
 <style>
 @font-face {
-    font-family: "GMarketBold";
-    src: url("fonts/GmarketSansBold.otf");
+  font-family: "GMarket Sans";
+  src: url("fonts/GmarketSans/GmarketSansTTFBold.woff2") format('woff2');
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("fonts/OpenSans/open-sans-latin-400-normal.woff2") format('woff2');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("fonts/OpenSans/open-sans-latin-700-normal.woff2") format('woff2');
+  font-weight: 700;
 }
 
 body {
@@ -17,6 +29,8 @@ body {
   background-size: cover;
   overflow: hidden;
 }
+
+a:link, a:visited { color: black;}
 
 .container {
   height: 70vh;
@@ -26,30 +40,36 @@ body {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 5px;
   padding: 5px;
+  font-size: 54px;
+  font-family: "Open Sans";
 }
-.container > div {
+.container > a {
   padding: 10px;
   text-align: center;
+  text-decoration: none;
 }
-.container > div.primary {
+.container > a.primary {
   grid-area: left;
   background-color: green;
+  padding-top: 30%;
 }
-.container > div.secondary {
+.container > a.secondary {
   grid-area: middle;
   background-color: orange;
+  padding-top: 5%;
 }
-.container > div.contrast {
+.container > a.contrast {
   grid-area: right;
   background-color: red;
+  padding-top: 30%;
 }
 
 footer{
   text-align: center;
-  font-family: GMarketBold;
+  font-family: "GMarket Sans";
   color: white;
   font-size: 20vh;
-  margin-top: 2vh;
+  margin-top: 4vh;
 }
 
 </style>
@@ -69,10 +89,10 @@ function display_clock() {
 }
   </script>
 <div class="container">
-  <div class="primary"><button onclick="">Registar impressão digital</button></div>
-  <div class="secondary"><a href="auth_finger.html">Fazer picagem com impressão digital</a></div>
-  <div class="contrast"><a href="auth_pin.html">Fazer picagem com PIN</a></div>
+  <a href="enroll.html" class="primary">Registar impressão digital</a>
+  <a href="auth_finger.html" class="secondary">Fazer picagem com <b>impressão digital</b></a>
+  <a href="auth_pin.html" class="contrast">Fazer picagem com <b>PIN</b></a>
 </div>
-<footer>00:00</footer>
+<footer><b>00:00</b></footer>
 </body>
 </html>

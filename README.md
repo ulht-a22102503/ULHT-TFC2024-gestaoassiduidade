@@ -70,3 +70,8 @@ The attendance is confirmed through a sequence of beeps:
 - 1 beep: OK
 - 2 beeps: Warning
 - 3 beeps: Failure
+
+## Fonts
+
+- [GMarket Sans](https://corp.gmarket.com/fonts/)
+- [Open Sans](https://github.com/googlefonts/opensans)
