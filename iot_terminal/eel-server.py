@@ -2,16 +2,21 @@ import eel
 import json
 from playsound3 import playsound
 import datetime
+import logging
+import sys
+
 import fingerprint_functionality as fpSensor
 import dal_terminal_db as database
 
+logger = logging.getLogger(__name__)
+
 def auth_finger():
+    logger.info("Got a request to mark attendance with fingerprint")
     try:
         finger_reader = fpSensor.init_reader()
         fp_idx = fpSensor.read(finger_reader)
     except Exception as e:
-        print('Operation failed!')
-        print('Exception message: ' + str(e))
+        logger.error("Operation failed! " + str(e))
         playsound("audio/3-beeps.mp3", block=False)
         return json.dumps({"auth": "failure"})
     
@@ -21,17 +26,21 @@ def auth_finger():
 
     db_conn = database.connect_to_db()
     func = database.get_employee_from_fingerprint(db_conn,fp_idx)
-    print("ID do funcionario",func)
+    logger.debug("Sucessfully authenticated employee nr. " + func[0])
     db_conn = database.connect_to_db()
     database.insert_attendence(db_conn,func)
+    logger.debug("Attendance sucessfully registered")
     #obter picagens das últimas 26 horas
     db_conn = database.connect_to_db()
-    database.get_today_attendance(db_conn, func)
+    att_records = database.get_today_attendance(db_conn, func)
     #obter horário
     db_conn = database.connect_to_db()
-    database.get_today_schedule(db_conn, func)
+    schedule = database.get_today_schedule(db_conn, func)
+    logger.debug("Today's schedule for employee " + func[0])
+    logger.debug("Today's attendence records for employee " + func[0])
     #lógica para verificar anomalias
     issue_cnt = check_anomalies(None, None)
+    logger.debug("Found " + issue_cnt + " anomalies for employee " + func[0])
     payload = {
         "auth": "success",
         "type": "fingerprint",
@@ -47,24 +56,31 @@ def auth_finger():
 
 
 def auth_pin(payload):
+    logger.info("Got a request to mark attendance with PIN code")
     db_conn = database.connect_to_db()
     result = database.get_login_match(db_conn, payload['id'], payload['secret_code'])
     issue_cnt = 0
     if result is None:
+        logger.debug("Credentials provided for employee nr. " + payload['id'] + " are incorrect")
         auth_res = "failure"
         playsound("audio/3-beeps.mp3", block=False)
     else:
+        logger.debug("Credentials provided for employee nr. " + result[0] + " are incorrect")
         auth_res = "success"
         db_conn = database.connect_to_db()
         database.insert_attendence(db_conn,result[0])
+        logger.debug("Attendance sucessfully registered")
         #obter picagens das últimas 26 horas
         db_conn = database.connect_to_db()
         database.get_today_attendance(db_conn, payload['id'])
         #obter horário
         db_conn = database.connect_to_db()
         database.get_today_schedule(db_conn, payload['id'])
+        logger.debug("Today's schedule for employee " + result[0])
+        logger.debug("Today's attendence records for employee " + result[0])
         #lógica para verificar anomalias
         issue_cnt = check_anomalies(None, None)
+        logger.debug("Found " + issue_cnt + " anomalies for employee " + result[0])
     payload_produce = {
         "auth": auth_res,
         "type":"PIN",
@@ -147,13 +163,17 @@ def check_anomalies(schedule, att_records):
     return anomaly_cnt
 
 def keep_running():
+    logger.debug("Close callback executed. Keeping the application alive.")
     pass
 
 def main():
+    logging.basicConfig(filename='log/terminal.log', level=logging.INFO, format="[{asctime}] [{levelname}] {message}", style="{", datefmt="%Y-%m-%d %H:%M:%S",filemode='a')
+    logger.info("Initializing...")
     #finger_reader = fpSensor.init_reader()
-    eel.init('web') #define a pasta com  o UI html
+    eel.init('web') #define a pasta com o UI HTML
     eel.expose(auth_pin)
     eel.expose(auth_finger)
+    logger.info("Ready!")
     eel.start('menu.html', close_callback= keep_running, cmdline_args=['--start-fullscreen']) #começa o webserver
 
 
