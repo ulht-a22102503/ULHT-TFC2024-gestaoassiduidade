@@ -6,27 +6,41 @@
     <link rel="stylesheet" href="css/pico.colors.min.css">
     <script type="text/javascript" src="/eel.js"></script>
 <style>
+@font-face {
+  font-family: "Open Sans";
+  src: url("fonts/OpenSans/open-sans-latin-400-normal.woff2") format('woff2');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "GMarket Sans";
+  src: url("fonts/GmarketSans/GmarketSansTTFBold.woff2") format('woff2');
+}
+
 body {
   background-image: url('img/dorina-perry-yQAuEZ6q2yo-unsplash.jpg');
   background-size: cover;
 }
 
+#lblInput, #tbxInput {
+  font-size: 30px;
+  font-family: "Open Sans";
+}
+
 #container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 30vw 30vw 30vw;
+  margin-left: 3vw;
+  margin-top: 5vh;
   padding: 10px;
 }
 #container > button {
   background-color: rgba(241,241,241,0.8);
   border: 1px solid black;
   padding: 10px;
-  font-size: 30px;
+  font-size: 64px;
   text-align: center;
-}
-
-#pin-input{
-  font-size: 30px;
-  text-align: center;
+  font-family: "GMarket Sans";
 }
 
 </style>
@@ -73,7 +87,7 @@ body {
 
         if (urlParams.has('id')){ //Já foi introduzido o ID do funcionário, falta o PIN
           tbxInput.type = 'password';
-          document.getElementById('lblInput').textContent = "PIN do funcionário " + urlParams.get('id') + ": ";
+          document.getElementById('lblInput').innerHTML = "PIN do funcionário <b>" + urlParams.get('id') + "</b>: ";
         }
         else{
           tbxInput.type = 'number';
