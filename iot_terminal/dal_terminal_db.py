@@ -11,7 +11,7 @@ def connect_to_db():
 #retrieving information 
 def get_employee_from_fingerprint(conn, ID_finger):
     cur = conn.cursor()
-    cur.execute("SELECT ID_employee, `name` FROM credentials WHERE ID_sensor_index_main=? OR ID_sensor_index_sec=?", (ID_finger,ID_finger,))
+    cur.execute("SELECT ID_employee, `name` FROM credentials INNER JOIN employee ON credentials.ID_employee = employee.ID_employee WHERE ID_sensor_index_main=? OR ID_sensor_index_sec=?", (ID_finger,ID_finger,))
     if cur.rowcount != 0:
         employee_data = (cur.ID_employee, cur.name)
     conn.close()
@@ -19,7 +19,7 @@ def get_employee_from_fingerprint(conn, ID_finger):
 
 def get_login_match(conn, ID_func, secret_code):
     cur = conn.cursor()
-    cur.execute("SELECT ID_employee, `name` FROM credentials WHERE ID_employee=? AND pincode=SHA2(?,256)", (ID_func, secret_code,))
+    cur.execute("SELECT ID_employee, `name` FROM credentials INNER JOIN employee ON credentials.ID_employee = employee.ID_employee WHERE ID_employee=? AND pincode=SHA2(?,256)", (ID_func, secret_code,))
     employee_data = set()
     if cur.rowcount != 0:
         employee_data = (cur.ID_employee, cur.name)
