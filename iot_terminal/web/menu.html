@@ -74,19 +74,20 @@ footer{
 
 </style>
 </head>
-<body onload="clock_update();">
+<body onload="display_clock();">
   <script>
-    function clock_update() {
-  var refresh = 1000; // Refresh rate in milli seconds
-  setInterval(display_clock, refresh)
-}
-
 function display_clock() {
   var now = new Date()
   clock = now.getHours().toString().padStart(2,0) + ":" + now.getMinutes().toString().padStart(2,0);
   document.querySelector('footer').innerHTML = clock;
-  clock_update();
 }
+
+let next_refresh = (60 - new Date().getSeconds()) * 1000;
+console.log("Refreshing in " + next_refresh + " miliseconds")
+
+setTimeout(() => {
+  window.location.reload();
+}, next_refresh);
   </script>
 <div class="container">
   <a href="enroll.html" class="primary">Registar impressão digital</a>
