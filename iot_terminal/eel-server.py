@@ -60,12 +60,13 @@ def auth_pin(payload):
     db_conn = database.connect_to_db()
     result = database.get_login_match(db_conn, payload['id'], payload['secret_code'])
     issue_cnt = 0
-    if result is None:
-        logger.debug("Credentials provided for employee nr. " + payload['id'] + " are incorrect")
+    if len(result) == 0:
+        result = (payload['id'], "Funcionári@ desconhecid@")
+        logger.debug(f"Credentials provided for employee nr. {payload['id']} are incorrect")
         auth_res = "failure"
         playsound("audio/3-beeps.mp3", block=False)
     else:
-        logger.debug("Credentials provided for employee nr. " + result[0] + " are incorrect")
+        logger.debug(f"Credentials provided for employee nr. {payload['id']} are correct")
         auth_res = "success"
         db_conn = database.connect_to_db()
         database.insert_attendence(db_conn,result[0])
@@ -76,11 +77,11 @@ def auth_pin(payload):
         #obter horário
         db_conn = database.connect_to_db()
         database.get_today_schedule(db_conn, payload['id'])
-        logger.debug("Today's schedule for employee " + result[0])
-        logger.debug("Today's attendence records for employee " + result[0])
+        logger.debug(f"Today's schedule for employee {result[0]}")
+        logger.debug(f"Today's attendence records for employee {result[0]}")
         #lógica para verificar anomalias
         issue_cnt = check_anomalies(None, None)
-        logger.debug("Found " + issue_cnt + " anomalies for employee " + result[0])
+        logger.debug(f"Found {issue_cnt} anomalies for employee {result[0]}")
     payload_produce = {
         "auth": auth_res,
         "type":"PIN",
@@ -166,10 +167,12 @@ def keep_running():
     logger.debug("Close callback executed. Keeping the application alive.")
     pass
 
-def main():
-    logging.basicConfig(filename='log/terminal.log', level=logging.INFO, format="[{asctime}] [{levelname}] {message}", style="{", datefmt="%Y-%m-%d %H:%M:%S",filemode='a')
+def main():    
+    log_filename = f'log/{datetime.datetime.now().strftime("%Y-%m-%d__%H-%M-%S")}-terminal.log'
+    logging.basicConfig(filename=log_filename, level=logging.INFO, format="[{asctime}] [{levelname}] {message}", style="{", datefmt="%Y-%m-%d %H:%M:%S",filemode='w')
+
     logger.info("Initializing...")
-    #finger_reader = fpSensor.init_reader()
+    finger_reader = fpSensor.init_reader()
     eel.init('web') #define a pasta com o UI HTML
     eel.expose(auth_pin)
     eel.expose(auth_finger)
