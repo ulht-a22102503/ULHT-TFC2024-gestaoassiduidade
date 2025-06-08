@@ -1,0 +1,24 @@
+@font-face {
+    font-family: "GMarket Sans";
+    src: url("../fonts/GmarketSans/GmarketSansTTFBold.woff2") format('woff2');
+  }
+  
+  @font-face {
+    font-family: "Open Sans";
+    src: url("../fonts/OpenSans/open-sans-latin-400-normal.woff2") format('woff2');
+    font-weight: 400;
+  }
+  
+  @font-face {
+    font-family: "Open Sans";
+    src: url("../fonts/OpenSans/open-sans-latin-700-normal.woff2") format('woff2');
+    font-weight: 700;
+  }
+  
+  body {
+    background-image: url('../img/dorina-perry-yQAuEZ6q2yo-unsplash.jpg');
+    background-size: cover;
+    overflow: hidden;
+  }
+  
+  a:link, a:visited { color: black;}
