@@ -65,6 +65,11 @@
         window.location.href = url
     }
 
+    function forwardToStatus(payload){
+      let url = 'result.html?auth=' + payload.auth + '&id=' + payload.id + '&name=' + payload.name + '&issues=' + payload.issues
+      window.location.href = url
+    }
+
     //Corre no onLoad
     function setPageThingies(){
         const queryString = window.location.search;
@@ -90,7 +95,7 @@
           secret_code : tbxInput.value,
         }
         console.log(payload);
-        eel.auth_pin(payload)(decidewhatsnext); //callback será decidewhatsnext()
+        eel.auth_pin(payload)(forwardToStatus); //callback será decidewhatsnext()
       }
       else{
         window.location.href = "auth_pin.html?id=" + tbxInput.value;

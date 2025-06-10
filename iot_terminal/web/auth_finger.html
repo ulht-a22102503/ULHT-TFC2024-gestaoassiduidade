@@ -27,12 +27,17 @@ body {
           url = 'result.html?auth=' + picagem.auth + '&id=' + picagem.id + '&name=' + picagem.name + '&issues=' + picagem.issues
         }
         else{
-          url = 'menu.html'
+          url = 'result.html?auth=' + picagem.auth
         }
         window.location.href = url
     }
 
-    eel.auth_finger()(goToResult); //callback será decidewhatsnext()
+    function forwardToStatus(payload){
+      let url = 'result.html?auth=' + payload.auth + '&id=' + payload.id + '&name=' + payload.name + '&issues=' + payload.issues
+      window.location.href = url
+    }
+
+    eel.auth_finger()(goToResult); //callback será goToResult()
 </script>
 </body>
 </html>

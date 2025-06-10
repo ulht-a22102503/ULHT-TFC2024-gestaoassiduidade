@@ -18,7 +18,7 @@ def auth_finger():
     except Exception as e:
         logger.error("Operation failed! " + str(e))
         playsound("audio/3-beeps.mp3", block=False)
-        return json.dumps({"auth": "failure"})
+        return json.dumps({"auth": "failure", "type": "fingerprint"})
     
     if fp_idx is None or fp_idx < 0:
         playsound("audio/3-beeps.mp3", block=False)
