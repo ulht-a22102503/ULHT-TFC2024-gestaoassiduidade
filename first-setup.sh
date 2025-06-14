@@ -15,12 +15,18 @@ sudo mysql -e "GRANT INSERT, SELECT, UPDATE, DELETE ON terminal.* TO 'assiduidad
 exit
 
 #create venv
-echo "4/5 Creating python venv"
+echo "4/5 Creating python venvs"
 python3 -m venv $HOME/Documents/.terminal-venv
-source "$HOME/Documents/.terminal-venv/bin/activate"
+python3 -m venv $HOME/Documents/.web-venv
 
 #install venv dependencies
 echo "5/5 Installing python dependencies"
+source "$HOME/Documents/.terminal-venv/bin/activate"
 pip install -r terminal_requirements.txt
+deactivate
+
+source "$HOME/Documents/.web-venv/bin/activate"
+pip install -r web_requirements.txt
+deactivate
 
 echo "Done! You can now enable the venv and run the websocket-server.py file"
