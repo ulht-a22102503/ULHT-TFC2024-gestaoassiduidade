@@ -10,14 +10,14 @@ sudo apt install python3 python3-pip python3-venv mariadb-server libmariadb-dev
 
 #setup database
 echo "3/5 Setting up database"
-sudo mysql -e "source iot_terminal/terminal_db.sql;"
+sudo mysql -e "source terminal/terminal_db.sql;"
 sudo mysql -e "GRANT INSERT, SELECT, UPDATE, DELETE ON terminal.* TO 'assiduidade'@'localhost' IDENTIFIED BY 'password';"
 exit
 
 #create venv
 echo "4/5 Creating python venv"
-python3 -m venv $HOME/Documents/.iot_terminal-venv
-source "$HOME/Documents/.iot_terminal-venv/bin/activate"
+python3 -m venv $HOME/Documents/.terminal-venv
+source "$HOME/Documents/.terminal-venv/bin/activate"
 
 #install venv dependencies
 echo "5/5 Installing python dependencies"
