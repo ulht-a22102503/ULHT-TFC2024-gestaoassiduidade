@@ -69,18 +69,14 @@ def insert_attendence(conn, ID_func):
         print(f"Error: {e}")
     conn.close()
 
-def insert_schedule(conn, ID_func, day, workcode, shift):
-    try: 
-        conn.cursor().execute("INSERT INTO schedule (ID_employee,valid_on,ID_workcode,ID_shift) VALUES (?, ?, ?, ?)", (ID_func,day, workcode, shift))
-        conn.commit()
-    except mariadb.Error as e: 
-        print(f"Error: {e}")
-    conn.close()
-
-def insert_schedule(conn, ID_func, day, workcode):
-    try: 
-        conn.cursor().execute("INSERT INTO schedule (ID_employee,valid_on,ID_workcode) VALUES (?, ?, ?)", (ID_func,day, workcode))
-        conn.commit()
+def insert_schedule(conn, ID_func, day, workcode, shift=None):
+    try:
+        if shift is None:
+            conn.cursor().execute("INSERT INTO schedule (ID_employee,valid_on,ID_workcode,ID_shift) VALUES (?, ?, ?)", (ID_func, day, workcode))
+            conn.commit()
+        else:
+            conn.cursor().execute("INSERT INTO schedule (ID_employee,valid_on,ID_workcode,ID_shift) VALUES (?, ?, ?, ?)", (ID_func, day, workcode, shift))
+            conn.commit()
     except mariadb.Error as e: 
         print(f"Error: {e}")
     conn.close()
