@@ -72,7 +72,7 @@ def insert_attendence(conn, ID_func):
 def insert_schedule(conn, ID_func, day, workcode, shift=None):
     try:
         if shift is None:
-            conn.cursor().execute("INSERT INTO schedule (ID_employee,valid_on,ID_workcode,ID_shift) VALUES (?, ?, ?)", (ID_func, day, workcode))
+            conn.cursor().execute("INSERT INTO schedule (ID_employee,valid_on,ID_workcode) VALUES (?, ?, ?)", (ID_func, day, workcode))
             conn.commit()
         else:
             conn.cursor().execute("INSERT INTO schedule (ID_employee,valid_on,ID_workcode,ID_shift) VALUES (?, ?, ?, ?)", (ID_func, day, workcode, shift))
