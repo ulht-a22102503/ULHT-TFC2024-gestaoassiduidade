@@ -71,6 +71,12 @@ The attendance is confirmed through a sequence of beeps:
 - 2 beeps: Warning
 - 3 beeps: Failure
 
+## Importing data
+
+### Schedules
+
+To import a schedule you can use the sample [import_schedule.py](/terminal/import_schedule.md) file as a starting point
+
 ## Fonts
 
 - [GMarket Sans](https://corp.gmarket.com/fonts/)
