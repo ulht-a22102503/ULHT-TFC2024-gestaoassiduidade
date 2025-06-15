@@ -1,17 +1,35 @@
-{% extends 'gestaoassiduidade/global.html' %}
+{% extends 'gestaoassiduidade/index.html' %}
+
+{% block menu %}
+<li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:index' %}" class="pure-menu-link">Início</a></li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:funcionarios_main' %}" class="pure-menu-link">Funcionários</a></li>
+<li class="pure-menu-item">
+    <a href="{% url 'gestaoassiduidade:picagens_main' %}" class="pure-menu-link pure-menu-selected">Picagens</a>
+</li>
+{% endblock %}
+
+{% block header %}
+<h1>Picagem de funcionários</h1>
+{% endblock %}
+
 
 {% block page_body %}
-<h1>Picagem de funcionários</h1>
-
-<table>
-<tr><td>ID Funcionário</td><td>Timestamp picagem</td></tr>
-{% for finger in fingers %}
-<tr>
-    <td>{{ finger.id_employee.id_employee }}</td><td>{{ finger.timestamp }}</td>
-    <td><a href="{% url 'gestaoassiduidade:picagens_edit' finger.id_attendance %}">Editar</a></td>
-</tr>
-{% endfor %}
+<table class="pure-table pure-table-bordered">
+    <thead>
+        <tr><td>ID Funcionário</td><td>Timestamp picagem</td></tr>
+    </thead>
+    <tbody>
+        {% for finger in fingers %}
+            <tr>
+                <td>{{ finger.id_employee.id_employee }}</td><td>{{ finger.timestamp }}</td>
+                <td><a href="{% url 'gestaoassiduidade:picagens_edit' finger.id_attendance %}">
+                    <button class="button-warning pure-button">Editar</button>
+                </a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
-
-<a href="{% url 'gestaoassiduidade:picagens_new' %}">+ Nova Picagem</a>
+<a href="{% url 'gestaoassiduidade:picagens_new' %}">
+    <button class="button-secondary pure-button">+ Nova Picagem</button>
+</a>
 {% endblock %}

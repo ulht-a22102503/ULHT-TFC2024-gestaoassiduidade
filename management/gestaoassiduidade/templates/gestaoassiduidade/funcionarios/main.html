@@ -1,16 +1,35 @@
-{% extends 'gestaoassiduidade/global.html' %}
+{% extends 'gestaoassiduidade/index.html' %}
+
+{% block menu %}
+<li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:index' %}" class="pure-menu-link">Início</a></li>
+<li class="pure-menu-item">
+    <a href="{% url 'gestaoassiduidade:funcionarios_main' %}" class="pure-menu-link pure-menu-selected">Funcionários</a>
+</li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:picagens_main' %}" class="pure-menu-link">Picagens</a></li>
+{% endblock %}
+
+{% block header %}
+<h1>Lista de funcionários</h1>
+{% endblock %}
+
 
 {% block page_body %}
-<h1>Lista de funcionários</h1>
-<table>
-<tr><td>ID Funcionário</td><td>Nome funcionário</td><td>ID Biometria</td></tr>
-{% for func in funcs %}
-<tr>
-    <td>{{ func.id_employee }}</td><td>{{ func.name }}</td><td>gri gri</td>
-    <td><a href="{% url 'gestaoassiduidade:funcionarios_edit' func.id_employee %}">Editar</a></td>
-</tr>
-{% endfor %}
+<table class="pure-table pure-table-bordered">
+    <thead>
+        <tr><td>ID Funcionário</td><td>Nome funcionário</td><td>ID Biometria</td></tr>
+    </thead>
+    <tbody>
+        {% for func in funcs %}
+            <tr>
+                <td>{{ func.id_employee }}</td><td>{{ func.name }}</td><td>gri gri</td>
+                <td><a href="{% url 'gestaoassiduidade:funcionarios_edit' func.id_employee %}">
+                    <button class="button-warning pure-button">Editar</button>
+                </a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
-
-<a href="{% url 'gestaoassiduidade:funcionarios_new' %}">+ Novo Funcionário</a>
+<a href="{% url 'gestaoassiduidade:funcionarios_new' %}">
+    <button class="button-secondary pure-button">+ Novo Funcionário</button>
+</a>
 {% endblock %}

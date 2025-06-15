@@ -1,12 +1,16 @@
-{% extends 'gestaoassiduidade/global.html' %}
+{% extends 'gestaoassiduidade/picagens/main.html' %}
 
 {% block page_body %}
-<form action="{% url 'gestaoassiduidade:picagens_edit' finger_id %}" method="POST" enctype="multipart/form-data">
+<form class="pure-form" action="{% url 'gestaoassiduidade:picagens_edit' finger_id %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
 
-    <a href="{% url 'gestaoassiduidade:picagens_main' %}" role="button">Cancelar</a>
-    <input type="submit" value="Gravar">
-    <a href="{% url 'gestaoassiduidade:picagens_remove' finger_id %}" role="button">Apagar</a>
+    <a href="{% url 'gestaoassiduidade:picagens_main' %}">
+        <button class="button-warning pure-button">Cancelar</button>
+    </a>
+    <button type="submit" class="pure-button pure-button-primary">Gravar</button>
+    <a href="{% url 'gestaoassiduidade:picagens_remove' func_id %}">
+        <button class="button-error pure-button">Apagar</button>
+    </a>
 </form>
 {% endblock %}
