@@ -49,7 +49,7 @@ def get_today_schedule(conn, ID_func):
     cur.execute("SELECT time_begin, break_begin, break_end, time_end FROM schedule INNER JOIN shift ON schedule.ID_shift = shift.ID_shift WHERE ID_employee = ? AND valid_on = CURDATE()", (ID_func,))
     times = set()
     if cur.rowcount != 0:
-        times = (cur.time_begin, cur.break_begin, cur.break_end, cur.time_end)
+        times = cur.fetchone()
     conn.close()
     return times
 
