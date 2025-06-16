@@ -26,7 +26,7 @@ def auth_finger():
 
     db_conn = database.connect_to_db()
     func = database.get_employee_from_fingerprint(db_conn,fp_idx)
-    logger.debug("Sucessfully authenticated employee nr. " + func[0])
+    logger.debug(f"Sucessfully authenticated employee nr. {func[0]}")
     db_conn = database.connect_to_db()
     database.insert_attendence(db_conn,func)
     logger.debug("Attendance sucessfully registered")
@@ -36,11 +36,11 @@ def auth_finger():
     #obter horário
     db_conn = database.connect_to_db()
     schedule = database.get_today_schedule(db_conn, func)
-    logger.debug("Today's schedule for employee " + func[0])
-    logger.debug("Today's attendence records for employee " + func[0])
+    logger.debug(f"Today's schedule for employee {func[0]}")
+    logger.debug(f"Today's attendence records for employee {func[0]}")
     #lógica para verificar anomalias
     issue_cnt = check_anomalies(None, None)
-    logger.debug("Found " + issue_cnt + " anomalies for employee " + func[0])
+    logger.debug(f"Found {issue_cnt} anomalies for employee {func[0]}")
     payload = {
         "auth": "success",
         "type": "fingerprint",
@@ -168,7 +168,7 @@ def keep_running():
     pass
 
 def main():    
-    log_filename = f'log/{datetime.datetime.now().strftime("%Y-%m-%d__%H-%M-%S")}-terminal.log'
+    log_filename = f'log/{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}-terminal.log'
     logging.basicConfig(filename=log_filename, level=logging.INFO, format="[{asctime}] [{levelname}] {message}", style="{", datefmt="%Y-%m-%d %H:%M:%S",filemode='w')
 
     logger.info("Initializing...")
