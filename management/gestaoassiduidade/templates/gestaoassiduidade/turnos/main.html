@@ -4,10 +4,10 @@
 <li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:index' %}" class="pure-menu-link">Início</a></li>
 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:funcionarios_main' %}" class="pure-menu-link">Funcionários</a></li>
 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:picagens_main' %}" class="pure-menu-link">Picagens</a></li>
-<li class="pure-menu-item menu-item-divided pure-menu-selected">
-    <a href="{% url 'gestaoassiduidade:cargos_main' %}" class="pure-menu-link">Cargos</a>
+<li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:cargos_main' %}" class="pure-menu-link">Cargos</a></li>
+<li class="pure-menu-item pure-menu-selected">
+    <a href="{% url 'gestaoassiduidade:turnos_main' %}" class="pure-menu-link">Turnos</a>
 </li>
-<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:turnos_main' %}" class="pure-menu-link">Turnos</a></li>
 {% endblock %}
 
 {% block header %}
@@ -18,20 +18,20 @@
 {% block page_body %}
 <table class="pure-table pure-table-bordered">
     <thead>
-        <tr><td>ID do cargo</td><td>Descrição</td><td></td></tr>
+        <tr><td>ID do turno</td><td>Início de turno</td><td>Início de pausa</td><td>Fim de pausa</td><td>Fim de turno</td><td></td></tr>
     </thead>
     <tbody>
-        {% for role in roles %}
+        {% for shift in shifts %}
             <tr>
-                <td>{{ role.id_role }}</td><td>{{ role.descript }}</td>
-                <td><a href="{% url 'gestaoassiduidade:cargos_edit' role.id_role %}">
+                <td>{{ shift.id_shift }}</td><td>{{ shift.time_begin }}</td><td>{{ shift.break_begin }}</td><td>{{ shift.break_end }}</td><td>{{ shift.time_end }}</td>
+                <td><a href="{% url 'gestaoassiduidade:turnos_edit' shift.id_shift %}">
                     <button class="button-warning pure-button">Editar</button>
                 </a></td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
-<a href="{% url 'gestaoassiduidade:cargos_new' %}">
-    <button class="button-secondary pure-button">Novo cargo</button>
+<a href="{% url 'gestaoassiduidade:turnos_new' %}">
+    <button class="button-secondary pure-button">Novo turno</button>
 </a>
 {% endblock %}

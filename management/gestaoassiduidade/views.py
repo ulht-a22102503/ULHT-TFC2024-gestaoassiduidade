@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Employee, Attendance, Fingerprint, JobRole
-from .forms import EmployeeForm, AttendanceForm, JobRoleForm
+from .models import Employee, Attendance, Fingerprint, JobRole, Shift
+from .forms import EmployeeForm, AttendanceForm, JobRoleForm, ShiftForm
 
 # Create your views here.
 def index_view(request):
@@ -106,3 +106,36 @@ def cargos_edit_view(request, role_id):
 def cargos_remove_view(request, role_id):
 	JobRole.objects.get(id_role=role_id).delete()
 	return HttpResponseRedirect(reverse('gestaoassiduidade:cargos_main'))
+
+
+#Turnos
+def turnos_main_view(request):
+	context = {'shifts': Shift.objects.all(), }
+	return render(request, 'gestaoassiduidade/turnos/main.html', context)
+
+def turnos_new_view(request):
+	form = ShiftForm(request.POST or None, request.FILES)
+	if form.is_valid():
+		form.save()
+		return redirect('gestaoassiduidade:turnos_main')
+		
+	context = {'form': form}
+	
+	return render(request, 'gestaoassiduidade/turnos/new.html', context)
+
+
+def turnos_edit_view(request, shift_id):
+	shift = Shift.objects.get(id_shift=shift_id)
+	form = ShiftForm(request.POST or None, instance=shift)
+
+	if form.is_valid():
+		form.save()
+		return HttpResponseRedirect(reverse('gestaoassiduidade:turnos_main'))
+	
+	context = {'form': form, 'shift_id': shift_id}
+	return render(request, 'gestaoassiduidade/turnos/edit.html', context)
+
+
+def turnos_remove_view(request, shift_id):
+	Shift.objects.get(id_shift=shift_id).delete()
+	return HttpResponseRedirect(reverse('gestaoassiduidade:turnos_main'))
