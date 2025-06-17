@@ -3,36 +3,36 @@
 {% block menu %}
 <li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:index' %}" class="pure-menu-link">Início</a></li>
 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:funcionarios_main' %}" class="pure-menu-link">Funcionários</a></li>
-<li class="pure-menu-item">
-    <a href="{% url 'gestaoassiduidade:picagens_main' %}" class="pure-menu-link pure-menu-selected">Picagens</a>
-</li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:picagens_main' %}" class="pure-menu-link">Picagens</a></li>
 <li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:cargos_main' %}" class="pure-menu-link">Cargos</a></li>
 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:turnos_main' %}" class="pure-menu-link">Turnos</a></li>
-<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:codstrabalho_main' %}" class="pure-menu-link">Códs. Trabalho</a></li>
+<li class="pure-menu-item pure-menu-selected">
+    <a href="{% url 'gestaoassiduidade:codstrabalho_main' %}" class="pure-menu-link">Códs. Trabalho</a>
+</li>
 {% endblock %}
 
 {% block header %}
-<h1>Picagem de funcionários</h1>
+<h1>Cargos da instituição</h1>
 {% endblock %}
 
 
 {% block page_body %}
 <table class="pure-table pure-table-bordered">
     <thead>
-        <tr><td>ID Funcionário</td><td>Timestamp picagem</td><td></td></tr>
+        <tr><td>Código de trabalho</td><td>Descrição</td><td>Tipo</td><td></td></tr>
     </thead>
     <tbody>
-        {% for finger in fingers %}
+        {% for workcode in workcodes %}
             <tr>
-                <td>{{ finger.id_employee.id_employee }}</td><td>{{ finger.timestamp }}</td>
-                <td><a href="{% url 'gestaoassiduidade:picagens_edit' finger.id_attendance %}">
+                <td>{{ workcode.id_workcode }}</td><td>{{ workcode.descript }}</td><td>{{ workcode.code_type }}</td>
+                <td><a href="{% url 'gestaoassiduidade:codstrabalho_edit' workcode.id_workcode %}">
                     <button class="button-warning pure-button">Editar</button>
                 </a></td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
-<a href="{% url 'gestaoassiduidade:picagens_new' %}">
-    <button class="button-secondary pure-button">+ Nova Picagem</button>
+<a href="{% url 'gestaoassiduidade:codstrabalho_new' %}">
+    <button class="button-secondary pure-button">Novo código de trabalho</button>
 </a>
 {% endblock %}

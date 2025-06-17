@@ -25,4 +25,9 @@ urlpatterns = [
     path('turnos/new', views.turnos_new_view, name = 'turnos_new'),
     path('turnos/edit/<int:shift_id>', views.turnos_edit_view, name = 'turnos_edit'),
     path('turnos/remove/<int:shift_id>', views.turnos_remove_view, name = 'turnos_remove'),
+    #Códigos de trabalho
+    path('codstrabalho/', views.codstrabalho_main_view, name = 'codstrabalho_main'),
+    path('codstrabalho/new', views.codstrabalho_new_view, name = 'codstrabalho_new'),
+    path('codstrabalho/edit/<str:workcode_id>', views.codstrabalho_edit_view, name = 'codstrabalho_edit'),
+    path('codstrabalho/remove/<str:workcode_id>', views.codstrabalho_remove_view, name = 'codstrabalho_remove'),
 ]

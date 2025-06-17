@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Employee, Attendance, Fingerprint, JobRole, Shift
-from .forms import EmployeeForm, AttendanceForm, JobRoleForm, ShiftForm
+from .models import Employee, Attendance, Fingerprint, JobRole, Shift, Workcode
+from .forms import EmployeeForm, AttendanceForm, JobRoleForm, ShiftForm, WorkcodeForm
 
 # Create your views here.
 def index_view(request):
@@ -139,3 +139,36 @@ def turnos_edit_view(request, shift_id):
 def turnos_remove_view(request, shift_id):
 	Shift.objects.get(id_shift=shift_id).delete()
 	return HttpResponseRedirect(reverse('gestaoassiduidade:turnos_main'))
+
+
+#Códigos de trabalho
+def codstrabalho_main_view(request):
+	context = {'workcodes': Workcode.objects.all(), }
+	return render(request, 'gestaoassiduidade/codstrabalho/main.html', context)
+
+def codstrabalho_new_view(request):
+	form = WorkcodeForm(request.POST or None, request.FILES)
+	if form.is_valid():
+		form.save()
+		return redirect('gestaoassiduidade:codstrabalho_main')
+		
+	context = {'form': form}
+	
+	return render(request, 'gestaoassiduidade/codstrabalho/new.html', context)
+
+
+def codstrabalho_edit_view(request, workcode_id):
+	code = Workcode.objects.get(id_workcode=workcode_id)
+	form = WorkcodeForm(request.POST or None, instance=code)
+
+	if form.is_valid():
+		form.save()
+		return HttpResponseRedirect(reverse('gestaoassiduidade:codstrabalho_main'))
+	
+	context = {'form': form, 'workcode_id': workcode_id}
+	return render(request, 'gestaoassiduidade/codstrabalho/edit.html', context)
+
+
+def codstrabalho_remove_view(request, workcode_id):
+	Workcode.objects.get(id_workcode=workcode_id).delete()
+	return HttpResponseRedirect(reverse('gestaoassiduidade:codstrabalho_main'))

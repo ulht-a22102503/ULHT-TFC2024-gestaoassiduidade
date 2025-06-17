@@ -1,0 +1,14 @@
+{% extends 'gestaoassiduidade/turnos/main.html' %}
+
+{% block page_body %}
+<form class="pure-form" action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <a href="{% url 'gestaoassiduidade:codstrabalho_main' %}">
+        <button class="button-warning pure-button">Cancelar</button>
+    </a>
+
+    <button type="submit" class="pure-button pure-button-primary">Gravar</button>
+</form>
+{% endblock %}
