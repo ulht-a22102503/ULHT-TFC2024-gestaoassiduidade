@@ -6,6 +6,7 @@
 <li class="pure-menu-item">
     <a href="{% url 'gestaoassiduidade:picagens_main' %}" class="pure-menu-link pure-menu-selected">Picagens</a>
 </li>
+<li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:cargos_main' %}" class="pure-menu-link">Cargos</a></li>
 {% endblock %}
 
 {% block header %}
@@ -16,7 +17,7 @@
 {% block page_body %}
 <table class="pure-table pure-table-bordered">
     <thead>
-        <tr><td>ID Funcionário</td><td>Timestamp picagem</td></tr>
+        <tr><td>ID Funcionário</td><td>Timestamp picagem</td><td></td></tr>
     </thead>
     <tbody>
         {% for finger in fingers %}

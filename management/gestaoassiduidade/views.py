@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Employee, Attendance, Fingerprint
-from .forms import EmployeeForm, AttendanceForm
+from .models import Employee, Attendance, Fingerprint, JobRole
+from .forms import EmployeeForm, AttendanceForm, JobRoleForm
 
 # Create your views here.
 def index_view(request):
@@ -73,3 +73,36 @@ def picagens_edit_view(request, finger_id):
 def picagens_remove_view(request, finger_id):
 	Attendance.objects.get(id_attendance=finger_id).delete()
 	return HttpResponseRedirect(reverse('gestaoassiduidade:picagens_main'))
+
+
+#Cargos
+def cargos_main_view(request):
+	context = {'roles': JobRole.objects.all(), }
+	return render(request, 'gestaoassiduidade/cargos/main.html', context)
+
+def cargos_new_view(request):
+	form = JobRoleForm(request.POST or None, request.FILES)
+	if form.is_valid():
+		form.save()
+		return redirect('gestaoassiduidade:cargos_main')
+		
+	context = {'form': form}
+	
+	return render(request, 'gestaoassiduidade/cargos/new.html', context)
+
+
+def cargos_edit_view(request, role_id):
+	role = JobRole.objects.get(id_role=role_id)
+	form = JobRoleForm(request.POST or None, instance=role)
+
+	if form.is_valid():
+		form.save()
+		return HttpResponseRedirect(reverse('gestaoassiduidade:cargos_main'))
+	
+	context = {'form': form, 'role_id': role_id}
+	return render(request, 'gestaoassiduidade/cargos/edit.html', context)
+
+
+def cargos_remove_view(request, role_id):
+	JobRole.objects.get(id_role=role_id).delete()
+	return HttpResponseRedirect(reverse('gestaoassiduidade:cargos_main'))

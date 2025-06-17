@@ -23,8 +23,8 @@
     
     <nav id="menu">
         <div class="pure-menu">
-            <a class="pure-menu-heading" href="#company">Gestão de</a>
-            <a class="pure-menu-heading" href="#company">assiduidade</a>
+            <a class="pure-menu-heading">Gestão de</a>
+            <a class="pure-menu-heading">assiduidade</a>
 
             <ul class="pure-menu-list">
                 {% block menu %}
@@ -32,6 +32,7 @@
                     <a href="{% url 'gestaoassiduidade:index' %}" class="pure-menu-link">Início</a></li>
                 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:funcionarios_main' %}" class="pure-menu-link">Funcionários</a></li>
                 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:picagens_main' %}" class="pure-menu-link">Picagens</a></li>
+                <li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:cargos_main' %}" class="pure-menu-link">Cargos</a></li>
                 {% endblock %}
             </ul>
         </div>

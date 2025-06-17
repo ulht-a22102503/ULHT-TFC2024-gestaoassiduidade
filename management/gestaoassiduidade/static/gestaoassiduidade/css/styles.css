@@ -144,6 +144,7 @@ appears on the left side of the page.
         font-size: 110%;
         color: #fff;
         margin: 0;
+        text-align: center;
     }
 
 /* -- Dynamic Button For Responsive Menu -------------------------------------*/

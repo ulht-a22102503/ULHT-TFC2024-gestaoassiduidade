@@ -1,0 +1,36 @@
+{% extends 'gestaoassiduidade/index.html' %}
+
+{% block menu %}
+<li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:index' %}" class="pure-menu-link">Início</a></li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:funcionarios_main' %}" class="pure-menu-link">Funcionários</a></li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:picagens_main' %}" class="pure-menu-link">Picagens</a></li>
+<li class="pure-menu-item menu-item-divided pure-menu-selected">
+    <a href="{% url 'gestaoassiduidade:cargos_main' %}" class="pure-menu-link">Cargos</a>
+</li>
+{% endblock %}
+
+{% block header %}
+<h1>Cargos da instituição</h1>
+{% endblock %}
+
+
+{% block page_body %}
+<table class="pure-table pure-table-bordered">
+    <thead>
+        <tr><td>ID do cargo</td><td>Descrição</td><td></td></tr>
+    </thead>
+    <tbody>
+        {% for role in roles %}
+            <tr>
+                <td>{{ role.id_role }}</td><td>{{ role.descript }}</td>
+                <td><a href="{% url 'gestaoassiduidade:cargos_edit' role.id_role %}">
+                    <button class="button-warning pure-button">Editar</button>
+                </a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'gestaoassiduidade:cargos_new' %}">
+    <button class="button-secondary pure-button">Novo cargo</button>
+</a>
+{% endblock %}

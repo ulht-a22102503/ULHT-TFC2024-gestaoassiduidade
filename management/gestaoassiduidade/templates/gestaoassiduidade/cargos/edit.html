@@ -1,15 +1,15 @@
-{% extends 'gestaoassiduidade/picagens/main.html' %}
+{% extends 'gestaoassiduidade/cargos/main.html' %}
 
 {% block page_body %}
-<form class="pure-form" action="{% url 'gestaoassiduidade:picagens_edit' finger_id %}" method="POST" enctype="multipart/form-data">
+<form class="pure-form" action="{% url 'gestaoassiduidade:cargos_edit' role_id %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
 
-    <a href="{% url 'gestaoassiduidade:picagens_main' %}">
+    <a href="{% url 'gestaoassiduidade:cargos_main' %}">
         <button class="button-warning pure-button">Cancelar</button>
     </a>
     <button type="submit" class="pure-button pure-button-primary">Gravar</button>
-    <a href="{% url 'gestaoassiduidade:picagens_remove' finger_id %}">
+    <a href="{% url 'gestaoassiduidade:cargos_remove' role_id %}">
         <button class="button-error pure-button">Apagar</button>
     </a>
 </form>
