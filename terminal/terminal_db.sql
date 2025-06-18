@@ -30,7 +30,7 @@ CREATE TABLE job_role(
 
 CREATE TABLE workcode(
     ID_workcode char(4) not null,
-    code_type bit not null, -- 1 present, 0 missing
+    code_type BOOL not null, -- 1 present, 0 missing
     descript char(30) not null,
     primary key (ID_workcode)
 );
