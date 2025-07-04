@@ -60,6 +60,20 @@ def get_today_attendance(conn, ID_func):
     conn.close()
     return att_recs
 
+def get_employee_schedule(conn, ID_func, begin_date, end_date):
+    cur = conn.cursor()
+    cur.execute("SELECT DATE_FORMAT(valid_on,'%Y-%m-%d'), TIME_FORMAT(time_begin,'%H:%i'), TIME_FORMAT(break_begin,'%H:%i'), TIME_FORMAT(break_end,'%H:%i'), TIME_FORMAT(time_end,'%H:%i') FROM schedule INNER JOIN shift ON  schedule.ID_shift = shift.ID_shift WHERE ID_employee = ? AND valid_on >= ? AND valid_on <= ?", (ID_func, begin_date, end_date))
+    schedule = [record for record in cur]
+    conn.close()
+    return schedule
+
+def get_employee_attendance(conn, ID_func, begin_date, end_date): #incompleto
+    cur = conn.cursor()
+    cur.execute("SELECT DATE_FORMAT(timestamp,'%Y-%m-%d %H:%i') FROM attendance WHERE ID_employee = ? AND valid_on >= ? AND valid_on <= ?", (ID_func, begin_date, end_date))
+    attendance = [record for record in cur]
+    conn.close()
+    return attendance
+
 #insert information
 def insert_attendence(conn, ID_func):
     try: 
