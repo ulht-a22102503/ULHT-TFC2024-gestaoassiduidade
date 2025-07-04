@@ -32,14 +32,14 @@ def auth_finger():
     logger.debug("Attendance sucessfully registered")
     #obter picagens das últimas 26 horas
     db_conn = database.connect_to_db()
-    att_records = database.get_today_attendance(db_conn, func)
+    attendance = database.get_today_attendance(db_conn, func)
     #obter horário
     db_conn = database.connect_to_db()
     schedule = database.get_today_schedule(db_conn, func)
     logger.debug(f"Today's schedule for employee {func[0]}")
     logger.debug(f"Today's attendence records for employee {func[0]}")
     #lógica para verificar anomalias
-    issue_cnt = check_anomalies(None, None)
+    issue_cnt = check_anomalies(schedule, attendance)
     logger.debug(f"Found {issue_cnt} anomalies for employee {func[0]}")
     payload = {
         "auth": "success",
@@ -73,14 +73,14 @@ def auth_pin(payload):
         logger.debug("Attendance sucessfully registered")
         #obter picagens das últimas 26 horas
         db_conn = database.connect_to_db()
-        database.get_today_attendance(db_conn, payload['id'])
+        attendance = database.get_today_attendance(db_conn, payload['id'])
         #obter horário
         db_conn = database.connect_to_db()
-        database.get_today_schedule(db_conn, payload['id'])
+        schedule = database.get_today_schedule(db_conn, payload['id'])
         logger.debug(f"Today's schedule for employee {result[0]}")
         logger.debug(f"Today's attendence records for employee {result[0]}")
         #lógica para verificar anomalias
-        issue_cnt = check_anomalies(None, None)
+        issue_cnt = check_anomalies(schedule, attendance)
         logger.debug(f"Found {issue_cnt} anomalies for employee {result[0]}")
     payload_produce = {
         "auth": auth_res,
@@ -143,17 +143,17 @@ def enroll(func_id):
     return payload
 
 def check_anomalies(schedule, att_records):
-    anomaly_cnt = 0
-    if schedule is None and att_records != 0:
-        #não era esperado o trabalhador estar ao serviço
-        return 4
+    print("Schedule:",schedule, type(schedule))
+    print("Attendance:",att_records, type(att_records))
 
+    anomaly_cnt = 0
     currently = datetime.datetime.now()
+
     #ver quantas picagens eram esperadas até ao momento
-    att_expected = len([expected for shift_time in schedule if shift_time <= currently.time])
-    if att_expected != att_records:
+    att_expected = [expected for shift_time in schedule if shift_time <= currently.time]
+    if len(att_expected) != len(att_records):
         #existem x picagens em falta
-        anomaly_cnt+=abs(att_expected-att_records)
+        anomaly_cnt+=abs(len(att_expected)-len(att_records))
 
     #existem registos, mas estão fora da tolerância
     tolerance = datetime.timedelta(minutes=15)
