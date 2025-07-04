@@ -3,7 +3,10 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from .models import Employee, Attendance, Fingerprint, JobRole, Shift, Workcode
-from .forms import EmployeeForm, AttendanceForm, JobRoleForm, ShiftForm, WorkcodeForm
+from .forms import EmployeeForm, AttendanceForm, JobRoleForm, ShiftForm, WorkcodeForm, ImportScheduleForm
+
+from .scripts import import_schedule
+
 
 # Create your views here.
 def index_view(request):
@@ -153,7 +156,6 @@ def codstrabalho_new_view(request):
 		return redirect('gestaoassiduidade:codstrabalho_main')
 		
 	context = {'form': form}
-	
 	return render(request, 'gestaoassiduidade/codstrabalho/new.html', context)
 
 
@@ -172,3 +174,14 @@ def codstrabalho_edit_view(request, workcode_id):
 def codstrabalho_remove_view(request, workcode_id):
 	Workcode.objects.get(id_workcode=workcode_id).delete()
 	return HttpResponseRedirect(reverse('gestaoassiduidade:codstrabalho_main'))
+
+
+#Import/Export
+def import_schedule_view(request):
+	form = ImportScheduleForm(request.POST or None, request.FILES)
+	if form.is_valid():
+		import_schedule.import_schedule(request.FILES["file"], request.POST["work_area"])
+		return redirect('gestaoassiduidade:index')
+		
+	context = {'form': form}
+	return render(request, 'gestaoassiduidade/import/schedule.html', context)

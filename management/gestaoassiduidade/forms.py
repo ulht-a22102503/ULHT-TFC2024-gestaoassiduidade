@@ -1,6 +1,16 @@
 from django import forms
 from django.forms import ModelForm
 from .models import Employee, Attendance, JobRole, Shift, Workcode
+from django.core.validators import FileExtensionValidator
+from datetime import date
+
+IMPORT_SCHEDULE_CHOICES = [
+    ('ERPI', 'Lar'),
+    ('SAD',"Apoio Domiciliário"),
+    ('LAV',"Lavandaria"),
+    ('COZ', 'Cozinha'),
+]
+
 
 class EmployeeForm(ModelForm):
     class Meta:
@@ -25,4 +35,10 @@ class ShiftForm(ModelForm):
 class WorkcodeForm(ModelForm):
     class Meta:
             model = Workcode
-            fields = '__all__'
+            fields = '__all__'    
+
+class ImportScheduleForm(forms.Form):
+    file = forms.FileField(label="Ficheiro da escala", validators=[FileExtensionValidator(['csv'])])
+    work_area = forms.ChoiceField(label="Resposta Social", choices=IMPORT_SCHEDULE_CHOICES)
+    date_begin = forms.DateField(label="Desde dia (DD-MM-AAAA):", input_formats=['%d-%m-%Y'])
+    date_end = forms.DateField(label="Até dia (DD-MM-AAAA):", input_formats=['%d-%m-%Y'])

@@ -1,0 +1,31 @@
+{% extends 'gestaoassiduidade/index.html' %}
+
+{% block menu %}
+<li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:index' %}" class="pure-menu-link">Início</a></li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:funcionarios_main' %}" class="pure-menu-link">Funcionários</a></li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:picagens_main' %}" class="pure-menu-link">Picagens</a></li>
+<li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:cargos_main' %}" class="pure-menu-link">Cargos</a></li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:turnos_main' %}" class="pure-menu-link">Turnos</a></li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:codstrabalho_main' %}" class="pure-menu-link">Códigos de Trabalho</a></li>
+<li class="pure-menu-item pure-menu-selected">
+    <a href="{% url 'gestaoassiduidade:import_schedule' %}" class="pure-menu-link">Importar</a>
+</li>
+{% endblock %}
+
+{% block header %}
+<h1>Importação de escalas</h1>
+{% endblock %}
+
+
+{% block page_body %}
+<form class="pure-form" action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <a href="{% url 'gestaoassiduidade:index' %}">
+        <button class="button-warning pure-button">Cancelar</button>
+    </a>
+
+    <button type="submit" class="pure-button pure-button-primary">Importar</button>
+</form>
+{% endblock %}
