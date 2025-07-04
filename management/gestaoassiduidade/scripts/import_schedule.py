@@ -7,16 +7,7 @@ from gestaoassiduidade.models import Schedule
 
 locale.setlocale(locale.LC_ALL, 'pt_PT.utf8')
 
-def memfile_to_list(file):
-    new_file = file.read().decode('utf-8')
-    reader = csv.reader(io.StringIO(new_file))
-    print(next(reader))
-    return [line for line in reader]
-
 def import_schedule(file, area):
-    #print(file)
-    #hmm = memfile_to_list(file)
-    #print(hmm)
     num_shift = list
     match area:
         case 'ERPI':
@@ -28,8 +19,6 @@ def import_schedule(file, area):
         case 'COZ':
             num_shift = [('1',17), ('2',18), ('A',19), ('B',20)]
 
-
-    #with open(filename, newline='', encoding='utf-8') as csvfile:
     csvfile = file.read().decode('utf-8')
     reader = csv.reader(io.StringIO(csvfile), delimiter=';', quotechar='|')
     schedule_month = next(reader)[8]
