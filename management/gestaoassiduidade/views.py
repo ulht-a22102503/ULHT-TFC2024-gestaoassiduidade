@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Employee, Attendance, Fingerprint, JobRole, Shift, Workcode
+from .models import Employee, Attendance, Credentials, JobRole, Shift, Workcode
 from .forms import EmployeeForm, AttendanceForm, JobRoleForm, ShiftForm, WorkcodeForm, ImportScheduleForm
 
 from .scripts import import_schedule
@@ -14,8 +14,7 @@ def index_view(request):
 
 #Funcionários
 def funcionarios_main_view(request):
-	context = {'funcs': Employee.objects.all(),
-	'fingers': Fingerprint.objects.all(), }
+	context = {'funcs': Employee.objects.select_related('credentials').all(), }
 	return render(request, 'gestaoassiduidade/funcionarios/main.html', context)
 
 

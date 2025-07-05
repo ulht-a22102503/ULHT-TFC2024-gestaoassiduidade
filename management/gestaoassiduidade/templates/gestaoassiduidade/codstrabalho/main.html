@@ -20,7 +20,7 @@
 {% block page_body %}
 <table class="pure-table pure-table-bordered">
     <thead>
-        <tr><td>Código de trabalho</td><td>Descrição</td><td>Tipo</td><td></td></tr>
+        <tr><td>Código de trabalho</td><td>Descrição</td><td>Tipo</td><td></td><td></td></tr>
     </thead>
     <tbody>
         {% for workcode in workcodes %}
@@ -28,6 +28,9 @@
                 <td>{{ workcode.id_workcode }}</td><td>{{ workcode.descript }}</td><td>{{ workcode.code_type|yesno:"Trabalho,Ausência" }}</td>
                 <td><a href="{% url 'gestaoassiduidade:codstrabalho_edit' workcode.id_workcode %}">
                     <button class="button-warning pure-button">Editar</button>
+                </a></td>
+                <td><a href="{% url 'gestaoassiduidade:codstrabalho_remove' workcode.id_workcode %}">
+                    <button class="button-error pure-button">Apagar</button>
                 </a></td>
             </tr>
         {% endfor %}

@@ -20,14 +20,17 @@
 {% block page_body %}
 <table class="pure-table pure-table-bordered">
     <thead>
-        <tr><td>ID Funcionário</td><td>Nome funcionário</td><td>ID Biometria</td><td></td></tr>
+        <tr><td>ID Funcionário</td><td>Nome funcionário</td><td>ID Biometria</td><td></td><td></td></tr>
     </thead>
     <tbody>
         {% for func in funcs %}
             <tr>
-                <td>{{ func.id_employee }}</td><td>{{ func.name }}</td><td>gri gri</td>
+                <td>{{ func.id_employee }}</td><td>{{ func.name }}</td><td>{{func.credentials.id_sensor_index_main}}</td>
                 <td><a href="{% url 'gestaoassiduidade:funcionarios_edit' func.id_employee %}">
                     <button class="button-warning pure-button">Editar</button>
+                </a></td>
+                <td><a href="{% url 'gestaoassiduidade:funcionarios_remove' func.id_employee %}">
+                    <button class="button-error pure-button">Apagar</button>
                 </a></td>
             </tr>
         {% endfor %}

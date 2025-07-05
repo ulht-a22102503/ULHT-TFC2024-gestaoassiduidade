@@ -66,16 +66,6 @@ class Attendance(models.Model):
         db_table = 'attendance'
 
 
-class Fingerprint(models.Model):
-    id_fingerprint = models.IntegerField(primary_key=True, db_column='ID_fingerprint')
-    id_employee = models.ForeignKey(Employee, db_column='ID_employee', on_delete=models.CASCADE)
-    id_sensor_index = models.IntegerField(db_column='ID_sensor_index', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'fingerprint'
-
-
 class Credentials(models.Model):
     id_fingerprint = models.AutoField(db_column='ID_fingerprint', primary_key=True)
     id_employee = models.OneToOneField('Employee', models.DO_NOTHING, db_column='ID_employee')

@@ -20,7 +20,7 @@
 {% block page_body %}
 <table class="pure-table pure-table-bordered">
     <thead>
-        <tr><td>ID do cargo</td><td>Descrição</td><td></td></tr>
+        <tr><td>ID do cargo</td><td>Descrição</td><td></td><td></td></tr>
     </thead>
     <tbody>
         {% for role in roles %}
@@ -28,6 +28,9 @@
                 <td>{{ role.id_role }}</td><td>{{ role.descript }}</td>
                 <td><a href="{% url 'gestaoassiduidade:cargos_edit' role.id_role %}">
                     <button class="button-warning pure-button">Editar</button>
+                </a></td>
+                <td><a href="{% url 'gestaoassiduidade:cargos_remove' role.id_role %}">
+                    <button class="button-error pure-button">Apagar</button>
                 </a></td>
             </tr>
         {% endfor %}

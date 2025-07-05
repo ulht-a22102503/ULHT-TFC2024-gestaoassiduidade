@@ -20,7 +20,7 @@
 {% block page_body %}
 <table class="pure-table pure-table-bordered">
     <thead>
-        <tr><td>ID do turno</td><td>Início de turno</td><td>Início de pausa</td><td>Fim de pausa</td><td>Fim de turno</td><td></td></tr>
+        <tr><td>ID do turno</td><td>Início de turno</td><td>Início de pausa</td><td>Fim de pausa</td><td>Fim de turno</td><td></td><td></td></tr>
     </thead>
     <tbody>
         {% for shift in shifts %}
@@ -28,6 +28,9 @@
                 <td>{{ shift.id_shift }}</td><td>{{ shift.time_begin }}</td><td>{{ shift.break_begin }}</td><td>{{ shift.break_end }}</td><td>{{ shift.time_end }}</td>
                 <td><a href="{% url 'gestaoassiduidade:turnos_edit' shift.id_shift %}">
                     <button class="button-warning pure-button">Editar</button>
+                </a></td>
+                <td><a href="{% url 'gestaoassiduidade:turnos_remove' shift.id_shift %}">
+                    <button class="button-error pure-button">Apagar</button>
                 </a></td>
             </tr>
         {% endfor %}
