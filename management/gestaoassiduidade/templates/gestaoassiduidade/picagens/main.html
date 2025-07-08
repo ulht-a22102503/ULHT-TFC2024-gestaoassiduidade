@@ -8,7 +8,7 @@
 </li>
 <li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:cargos_main' %}" class="pure-menu-link">Cargos</a></li>
 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:turnos_main' %}" class="pure-menu-link">Turnos</a></li>
-<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:codstrabalho_main' %}" class="pure-menu-link">Códs. Trabalho</a></li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:codstrabalho_main' %}" class="pure-menu-link">Códigos de Trabalho</a></li>
 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:import_schedule' %}" class="pure-menu-link">Importar</a></li>
 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:export_attendance' %}" class="pure-menu-link">Exportar</a></li>
 {% endblock %}
@@ -38,6 +38,6 @@
     </tbody>
 </table>
 <a href="{% url 'gestaoassiduidade:picagens_new' %}">
-    <button class="button-secondary pure-button">+ Nova Picagem</button>
+    <button class="button-secondary pure-button">Nova Picagem</button>
 </a>
 {% endblock %}
