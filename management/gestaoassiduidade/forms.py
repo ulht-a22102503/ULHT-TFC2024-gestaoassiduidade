@@ -42,3 +42,7 @@ class ImportScheduleForm(forms.Form):
     work_area = forms.ChoiceField(label="Resposta Social", choices=IMPORT_SCHEDULE_CHOICES)
     date_begin = forms.DateField(label="Desde dia (DD-MM-AAAA):", input_formats=['%d-%m-%Y'])
     date_end = forms.DateField(label="Até dia (DD-MM-AAAA):", input_formats=['%d-%m-%Y'])
+
+class ExportScheduleForm(forms.Form):
+    date_begin = forms.DateField(label="Desde dia (DD-MM-AAAA):", input_formats=['%d-%m-%Y'])
+    date_end = forms.DateField(label="Até dia (DD-MM-AAAA):", input_formats=['%d-%m-%Y'])

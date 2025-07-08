@@ -32,4 +32,5 @@ urlpatterns = [
     path('codstrabalho/remove/<str:workcode_id>', views.codstrabalho_remove_view, name = 'codstrabalho_remove'),
     #Importação/Exportação
     path('import/schedule', views.import_schedule_view, name = 'import_schedule'),
+    path('export/attendance', views.export_attendance_view, name = 'export_attendance'),
 ]

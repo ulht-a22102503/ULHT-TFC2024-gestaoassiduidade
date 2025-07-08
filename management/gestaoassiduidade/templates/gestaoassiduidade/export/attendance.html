@@ -7,14 +7,14 @@
 <li class="pure-menu-item menu-item-divided"><a href="{% url 'gestaoassiduidade:cargos_main' %}" class="pure-menu-link">Cargos</a></li>
 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:turnos_main' %}" class="pure-menu-link">Turnos</a></li>
 <li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:codstrabalho_main' %}" class="pure-menu-link">Códigos de Trabalho</a></li>
+<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:import_schedule' %}" class="pure-menu-link">Importar</a></li>
 <li class="pure-menu-item pure-menu-selected">
-    <a href="{% url 'gestaoassiduidade:import_schedule' %}" class="pure-menu-link">Importar</a>
+    <a href="{% url 'gestaoassiduidade:export_attendance' %}" class="pure-menu-link">Exportar</a>
 </li>
-<li class="pure-menu-item"><a href="{% url 'gestaoassiduidade:export_attendance' %}" class="pure-menu-link">Exportar</a></li>
 {% endblock %}
 
 {% block header %}
-<h1>Importação de escalas</h1>
+<h1>Exportação de registo de assiduidade</h1>
 {% endblock %}
 
 
@@ -27,6 +27,6 @@
         <button class="button-warning pure-button">Cancelar</button>
     </a>
 
-    <button type="submit" class="pure-button pure-button-primary">Importar</button>
+    <button type="submit" class="pure-button pure-button-primary">Exportar</button>
 </form>
 {% endblock %}

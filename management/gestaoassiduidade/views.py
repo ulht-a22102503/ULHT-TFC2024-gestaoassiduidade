@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 
 from .models import Employee, Attendance, Credentials, JobRole, Shift, Workcode
-from .forms import EmployeeForm, AttendanceForm, JobRoleForm, ShiftForm, WorkcodeForm, ImportScheduleForm
+from .forms import EmployeeForm, AttendanceForm, JobRoleForm, ShiftForm, WorkcodeForm, ImportScheduleForm, ExportScheduleForm
 
-from .scripts import import_schedule
+from .scripts import import_schedule, export_attendance
 
 
 # Create your views here.
@@ -184,3 +184,15 @@ def import_schedule_view(request):
 		
 	context = {'form': form}
 	return render(request, 'gestaoassiduidade/import/schedule.html', context)
+
+def export_attendance_view(request):
+	form = ExportScheduleForm(request.POST or None, request.FILES)
+	if form.is_valid():
+		spreadsheet = export_attendance.export_attendance(form.data['date_begin'], form.data['date_end'])
+		response = HttpResponse(spreadsheet, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+		response['Content-Disposition'] = "attachment; filename = registo_assiduidade.xlsx"
+		return response
+		#return redirect('gestaoassiduidade:index')
+		
+	context = {'form': form}
+	return render(request, 'gestaoassiduidade/export/attendance.html', context)
