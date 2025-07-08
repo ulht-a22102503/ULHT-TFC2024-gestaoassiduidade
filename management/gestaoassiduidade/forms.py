@@ -20,7 +20,7 @@ class EmployeeForm(ModelForm):
 class AttendanceForm(ModelForm):
     class Meta:
             model = Attendance
-            fields = '__all__'
+            fields = ['id_employee','timestamp']
 
 class JobRoleForm(ModelForm):
     class Meta:
@@ -30,7 +30,7 @@ class JobRoleForm(ModelForm):
 class ShiftForm(ModelForm):
     class Meta:
             model = Shift
-            fields = '__all__'
+            fields = ['time_begin','break_begin','break_end','time_end']
 
 class WorkcodeForm(ModelForm):
     class Meta:
