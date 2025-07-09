@@ -7,6 +7,9 @@ class JobRole(models.Model):
     id_role = models.CharField(db_column='ID_role', primary_key=True, max_length=4)
     descript = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.descript
+
     class Meta:
         managed = False
         db_table = 'job_role'
@@ -50,6 +53,9 @@ class Employee(models.Model):
     id_employee = models.AutoField(db_column='ID_employee', primary_key=True)
     id_role = models.ForeignKey(JobRole, models.DO_NOTHING, db_column='ID_role')
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         managed = False
