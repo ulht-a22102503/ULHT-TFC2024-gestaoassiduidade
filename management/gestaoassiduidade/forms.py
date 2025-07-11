@@ -27,7 +27,7 @@ class AttendanceForm(ModelForm):
             fields = ['id_employee','timestamp']
             labels = {
                 'id_employee':'Nome do trabalhador',
-                'timestamp':'Cargo',
+                'timestamp':'Hora da picagem',
             }
 
 class JobRoleForm(ModelForm):

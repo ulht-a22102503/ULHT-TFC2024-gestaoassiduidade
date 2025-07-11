@@ -69,15 +69,15 @@ def export_attendance(start_date, end_date):
                         worksheet.write(day+2,fill,'N/A')
                 else:
                     shift = Shift.objects.get(id_shift=yummy_data[current_day.date()][1])
-                    worksheet.write(day+2,2,getattr(shift,'time_begin').strftime('%HH:%MM:%SS'),format_time)
-                    worksheet.write(day+2,4,getattr(shift,'break_begin').strftime('%HH:%MM:%SS'),format_time)
-                    worksheet.write(day+2,6,getattr(shift,'break_end').strftime('%HH:%MM:%SS'),format_time)
-                    worksheet.write(day+2,8,getattr(shift,'time_end').strftime('%HH:%MM:%SS'),format_time)
+                    worksheet.write(day+2,2,getattr(shift,'time_begin').strftime('%HH:%MM'),format_time)
+                    worksheet.write(day+2,4,getattr(shift,'break_begin').strftime('%HH:%MM'),format_time)
+                    worksheet.write(day+2,6,getattr(shift,'break_end').strftime('%HH:%MM'),format_time)
+                    worksheet.write(day+2,8,getattr(shift,'time_end').strftime('%HH:%MM'),format_time)
 
                 # Picagens
                 idx = 1
                 for fill in yummy_data[current_day.date()][2]:
-                        worksheet.write(day+2,idx,fill.strftime('%HH:%MM:%SS'),format_time)
+                        worksheet.write(day+2,idx,fill.strftime('%HH:%MM'),format_time)
                         idx +=2
                 if len(yummy_data[current_day.date()][2]) == 4:
                     worksheet.write(day+2,11,str(yummy_data[current_day.date()][2][2]-yummy_data[current_day.date()][2][1]))
