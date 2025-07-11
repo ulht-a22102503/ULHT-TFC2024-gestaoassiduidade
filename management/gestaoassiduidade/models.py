@@ -15,18 +15,6 @@ class JobRole(models.Model):
         db_table = 'job_role'
 
 
-class Schedule(models.Model):
-    id_schedule = models.AutoField(db_column='ID_schedule', primary_key=True)
-    valid_on = models.DateField()
-    id_workcode = models.CharField(db_column='ID_workcode', max_length=4)
-    id_shift = models.IntegerField(db_column='ID_shift', blank=True, null=True)
-    id_employee = models.IntegerField(db_column='ID_employee')
-
-    class Meta:
-        managed = False
-        db_table = 'schedule'
-
-
 class Shift(models.Model):
     id_shift = models.AutoField(db_column='ID_shift', primary_key=True)
     time_begin = models.TimeField()
@@ -82,3 +70,14 @@ class Credentials(models.Model):
     class Meta:
         managed = False
         db_table = 'credentials'
+
+class Schedule(models.Model):
+    id_schedule = models.AutoField(db_column='ID_schedule', primary_key=True)
+    valid_on = models.DateField()
+    id_workcode = models.ForeignKey(Workcode, models.DO_NOTHING, db_column='ID_workcode')
+    id_shift = models.ForeignKey(Shift, models.DO_NOTHING, db_column='ID_shift', blank=True, null=True)
+    id_employee = models.ForeignKey(Employee, models.DO_NOTHING, db_column='ID_employee')
+
+    class Meta:
+        managed = False
+        db_table = 'schedule'
