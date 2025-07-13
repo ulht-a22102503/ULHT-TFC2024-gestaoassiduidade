@@ -61,7 +61,7 @@ python manage.py runserver
 
 ## Terminal backend
 
-The backend mainly works with JSON payloads, check the [.md file](/iot_terminal/payload_format.md) with the format for each function.
+The backend mainly works with JSON payloads, check the [.md file](/terminal/payload_format.md) with the format for each function.
 
 ## Beep codes
 
@@ -75,7 +75,9 @@ The attendance is confirmed through a sequence of beeps:
 
 ### Schedules
 
-To import a schedule you can use the sample [import_schedule.py](/terminal/import_schedule.md) file as a starting point
+To import a schedule you can use the sample [import_schedule.py](/management/gestaoassiduidade/scripts/import_schedule.py) file as a starting point
+
+The schedule should be a .csv file, following the [schedule-template.csv](schedule-template.csv) structure
 
 ## Fonts
 
