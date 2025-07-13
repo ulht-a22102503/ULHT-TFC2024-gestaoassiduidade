@@ -3,7 +3,7 @@ import calendar
 import csv
 import io
 from datetime import datetime
-from gestaoassiduidade.models import Schedule
+from gestaoassiduidade.models import Schedule, Workcode, Shift, Employee
 
 locale.setlocale(locale.LC_ALL, 'pt_PT.utf8')
 
@@ -11,13 +11,13 @@ def import_schedule(file, area):
     num_shift = list
     match area:
         case 'ERPI':
-            num_shift = [('M',1),('T',2),('N',3)]
-        case 'SAD':
-            num_shift = [('1',4), ('2',5), ('3',6), ('4',7), ('5',8), ('7',9)]
-        case 'LAV':
-            num_shift = [('A',10), ('B',11), ('C',12), ('M',13), ('M0',14), ('M1',15), ('T',16)]
-        case 'COZ':
-            num_shift = [('1',17), ('2',18), ('A',19), ('B',20)]
+            num_shift = [('M',Shift.objects.get(id_shift=1)),('T',Shift.objects.get(id_shift=2)),('N',Shift.objects.get(id_shift=3))]
+
+    sch_vht = Workcode.objects.get(id_workcode='VHT')
+    sch_h10 = Workcode.objects.get(id_workcode='H10')
+    sch_fds = Workcode.objects.get(id_workcode='FDS')
+    sch_fer = Workcode.objects.get(id_workcode='FER')
+    sch_flg = Workcode.objects.get(id_workcode='FLG')
 
     csvfile = file.read().decode('utf-8')
     reader = csv.reader(io.StringIO(csvfile), delimiter=';', quotechar='|')
@@ -27,6 +27,7 @@ def import_schedule(file, area):
     next(reader)
     for row in reader:
         print("ID trabalhador:", row[0], "| Nome trabalhador:", row[1])
+        employee = Employee.objects.get(id_employee=row[0])
         employee_schedule = row[8:offset]
         print(employee_schedule,'\n')
         for day, shift in enumerate(employee_schedule, start=1):
@@ -37,33 +38,34 @@ def import_schedule(file, area):
                 if shift == idk[0]:
                     if weekday == 6 and row[7] == 'F':
                         #escala fixa tem direito a 2x no domingo
-                        d = Schedule(valid_on=workday, id_employee=row[0], id_workcode='H10' , id_shift=idk[1])
+                        d = Schedule(valid_on=workday, id_employee=employee, id_workcode=sch_h10 , id_shift=idk[1])
                     else:
-                        d = Schedule(valid_on=workday, id_employee=row[0], id_workcode='VHT' , id_shift=idk[1])
+                        d = Schedule(valid_on=workday, id_employee=employee, id_workcode=sch_vht , id_shift=idk[1])
                     d.save()
 
             match shift:
                 #Feriados
                 case "FE":
-                    d = Schedule(valid_on=workday, id_employee=row[0], id_workcode='FDS')
+                    d = Schedule(valid_on=workday, id_employee=employee, id_workcode=sch_fds)
                     d.save()
                 #Folgas
                 case "DC" | "DO" | "CH":
-                    d = Schedule(valid_on=workday, id_employee=row[0], id_workcode='FLG')
+                    d = Schedule(valid_on=workday, id_employee=employee, id_workcode=sch_flg)
                     d.save()
                 #Férias
                 case "FR":
-                    d = Schedule(valid_on=workday, id_employee=row[0], id_workcode='FER')
+                    d = Schedule(valid_on=workday, id_employee=employee, id_workcode=sch_fer)
                     d.save()
 
                 #Baixas
                 case "BM":
-                    d = Schedule(valid_on=workday, id_employee=row[0], id_workcode='FTB')
+                    d = Schedule(valid_on=workday, id_employee=employee, id_workcode='FTB')
                     d.save()
                 case 'BS':
-                    d = Schedule(valid_on=workday, id_employee=row[0], id_workcode='BPS')
+                    d = Schedule(valid_on=workday, id_employee=employee, id_workcode='BPS')
                     d.save()
                 case 'BP':
-                    d = Schedule(valid_on=workday, id_employee=row[0], id_workcode='BPT')
+                    d = Schedule(valid_on=workday, id_employee=employee, id_workcode='BPT')
                     d.save()
+
     
