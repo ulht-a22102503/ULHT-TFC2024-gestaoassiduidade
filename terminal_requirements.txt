@@ -7,7 +7,7 @@ gevent-websocket==0.10.1
 greenlet==3.2.0
 mariadb==1.1.12
 packaging==25.0
-pillow==11.2.1
+pillow==11.3.0
 playaudio==1.0.5
 pyfingerprint==1.5
 pyparsing==3.2.3
